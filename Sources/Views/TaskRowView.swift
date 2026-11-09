@@ -21,6 +21,8 @@ public struct TaskRowView: View {
     @State private var draftNotes: String = ""
     @State private var newSubItemDraft: String = ""
     @State private var showDatePickerPopover = false
+    @State private var isBreakingDownWithAI = false
+    @State private var aiErrorMessage: String? = nil
     @FocusState private var focusedField: InlineField?
     
     private enum InlineField {
@@ -190,6 +192,12 @@ public struct TaskRowView: View {
             Button("Open Detail Sheet...") {
                 onOpenSheet()
             }
+            Button {
+                breakDownWithAI()
+            } label: {
+                Label("Break Down with AI (✨)", systemImage: "sparkles")
+            }
+            .disabled(isBreakingDownWithAI)
             
             Divider()
             
@@ -510,8 +518,42 @@ public struct TaskRowView: View {
                         .onSubmit {
                             addSubItem()
                         }
+                    
+                    Spacer()
+                    
+                    Button {
+                        breakDownWithAI()
+                    } label: {
+                        HStack(spacing: 4) {
+                            if isBreakingDownWithAI {
+                                ProgressView()
+                                    .controlSize(.mini)
+                            } else {
+                                Image(systemName: "sparkles")
+                                    .font(.system(size: 10))
+                                    .foregroundColor(.orange)
+                            }
+                            Text(isBreakingDownWithAI ? "Generating..." : "AI Breakdown")
+                                .font(.geist(.medium, size: 10.5))
+                                .foregroundColor(SlateColors.secondary)
+                        }
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(SlateColors.hair.opacity(0.6))
+                        .cornerRadius(4)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(isBreakingDownWithAI)
+                    .help("Generate subtasks automatically with AI")
                 }
                 .padding(.top, 2)
+                
+                if let err = aiErrorMessage {
+                    Text(err)
+                        .font(.caption2)
+                        .foregroundColor(.red)
+                        .padding(.top, 1)
+                }
             }
             .padding(8)
             .background(SlateColors.hair.opacity(0.3))
@@ -695,6 +737,37 @@ public struct TaskRowView: View {
         newSubItemDraft = ""
         try? DataStore.shared.context.save()
         DataStore.shared.reloadAll()
+    }
+    
+    private func breakDownWithAI() {
+        guard !isBreakingDownWithAI else { return }
+        isBreakingDownWithAI = true
+        aiErrorMessage = nil
+        
+        Task {
+            do {
+                let items = try await AIService.shared.breakdownTask(title: task.title, notes: task.notes)
+                await MainActor.run {
+                    var current = task.checklist
+                    for title in items {
+                        if !current.contains(where: { $0.title.lowercased() == title.lowercased() }) {
+                            current.append(ChecklistItem(title: title))
+                        }
+                    }
+                    task.checklist = current
+                    task.lastTouchedDate = Date()
+                    try? DataStore.shared.context.save()
+                    DataStore.shared.reloadAll()
+                    SoundManager.shared.play(.button)
+                    isBreakingDownWithAI = false
+                }
+            } catch {
+                await MainActor.run {
+                    isBreakingDownWithAI = false
+                    aiErrorMessage = error.localizedDescription
+                }
+            }
+        }
     }
     
     private func clearReminder() {

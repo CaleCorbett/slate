@@ -189,6 +189,30 @@ public final class AppSettings: ObservableObject {
         }
     }
     
+    public var aiProvider: String {
+        willSet { if newValue != aiProvider { objectWillChange.send() } }
+        didSet {
+            guard oldValue != aiProvider else { return }
+            UserDefaults.standard.set(aiProvider, forKey: "aiProvider")
+        }
+    }
+    
+    public var aiModel: String {
+        willSet { if newValue != aiModel { objectWillChange.send() } }
+        didSet {
+            guard oldValue != aiModel else { return }
+            UserDefaults.standard.set(aiModel, forKey: "aiModel")
+        }
+    }
+    
+    public var ollamaEndpoint: String {
+        willSet { if newValue != ollamaEndpoint { objectWillChange.send() } }
+        didSet {
+            guard oldValue != ollamaEndpoint else { return }
+            UserDefaults.standard.set(ollamaEndpoint, forKey: "ollamaEndpoint")
+        }
+    }
+    
     public static let streakDateFormatter: DateFormatter = {
         let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd"
@@ -253,6 +277,9 @@ public final class AppSettings: ObservableObject {
         self.freshStartRitualEnabled = d.object(forKey: "freshStartRitualEnabled") as? Bool ?? true
         self.focusDurationMinutes = d.object(forKey: "focusDurationMinutes") as? Int ?? 25
         self.showCalendarPeekInToday = d.object(forKey: "showCalendarPeekInToday") as? Bool ?? true
+        self.aiProvider = d.string(forKey: "aiProvider") ?? AIProvider.anthropic.rawValue
+        self.aiModel = d.string(forKey: "aiModel") ?? "claude-3-7-sonnet-20250219"
+        self.ollamaEndpoint = d.string(forKey: "ollamaEndpoint") ?? "http://localhost:11434"
     }
     
     public var preferredColorScheme: ColorScheme? {

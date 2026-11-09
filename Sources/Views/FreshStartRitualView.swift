@@ -3,6 +3,8 @@ import SwiftUI
 public struct FreshStartRitualView: View {
     @ObservedObject private var store = DataStore.shared
     @Environment(\.dismiss) private var dismiss
+    @State private var isAIPlanning = false
+    @State private var aiStatusMessage: String? = nil
     
     public init() {}
     
@@ -90,6 +92,29 @@ public struct FreshStartRitualView: View {
                     .padding(.vertical, 4)
                     .background(SlateColors.hair)
                     .cornerRadius(6)
+                    
+                    Button(action: {
+                        planDayWithAI(carryovers: carryovers)
+                    }) {
+                        HStack(spacing: 4) {
+                            if isAIPlanning {
+                                ProgressView()
+                                    .controlSize(.mini)
+                            } else {
+                                Image(systemName: "sparkles")
+                                    .font(.system(size: 11))
+                                    .foregroundColor(.orange)
+                            }
+                            Text(isAIPlanning ? "Strategizing..." : "AI Suggest Focus")
+                                .font(.geist(.medium, size: 11.5))
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(SlateColors.hair)
+                    .cornerRadius(6)
+                    .disabled(isAIPlanning)
                     
                     Button(action: {
                         withAnimation(SlateTheme.easeSpring) {
@@ -216,6 +241,54 @@ public struct FreshStartRitualView: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(SlateColors.hair, lineWidth: 1)
         )
+    }
+    
+    private func planDayWithAI(carryovers: [TodoTask]) {
+        guard !isAIPlanning else { return }
+        isAIPlanning = true
+        aiStatusMessage = nil
+        
+        let candidates = carryovers.map { (title: $0.title, notes: $0.notes) }
+        let events = CalendarPeekService.shared.todayEvents.map { "\($0.title) (\($0.formattedTime))" }
+        let cap = AppSettings.shared.todayCapLimit
+        
+        Task {
+            do {
+                let chosenTitles = try await AIService.shared.planDay(
+                    nextTasks: candidates,
+                    calendarEvents: events,
+                    remainingSlots: cap
+                )
+                await MainActor.run {
+                    var kept: [TodoTask] = []
+                    var movedToNext: [TodoTask] = []
+                    
+                    for task in carryovers {
+                        if chosenTitles.contains(where: { $0.lowercased() == task.title.lowercased() }) {
+                            kept.append(task)
+                        } else {
+                            movedToNext.append(task)
+                        }
+                    }
+                    
+                    withAnimation(SlateTheme.easeSpring) {
+                        if !kept.isEmpty {
+                            store.keepTasksInToday(kept)
+                        }
+                        if !movedToNext.isEmpty {
+                            store.moveTasks(movedToNext, to: .next)
+                        }
+                    }
+                    SoundManager.shared.play(.button)
+                    isAIPlanning = false
+                }
+            } catch {
+                await MainActor.run {
+                    isAIPlanning = false
+                    aiStatusMessage = error.localizedDescription
+                }
+            }
+        }
     }
     
     private func dismissRitual() {

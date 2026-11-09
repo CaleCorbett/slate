@@ -33,13 +33,23 @@ public struct SettingsView: View {
                     Label("Data", systemImage: "externaldrive")
                 }
             
+            aiTab
+                .tabItem {
+                    Label("AI & Agents", systemImage: "sparkles")
+                }
+            
             aboutTab
                 .tabItem {
                     Label("About", systemImage: "info.circle")
                 }
         }
-        .frame(width: 590, height: 490)
+        .frame(width: 630, height: 510)
         .padding(12)
+    }
+    
+    // MARK: - AI & Agents Tab
+    private var aiTab: some View {
+        AISettingsTabView()
     }
     
     // MARK: - General Tab

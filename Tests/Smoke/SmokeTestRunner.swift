@@ -691,6 +691,60 @@ struct SmokeTestRunner {
         pumpRunLoop(seconds: 0.05)
         check(!AgentBridgeService.shared.isRunning, "AgentBridgeService cleanly stopped")
 
+        // ----------------------------------------------------
+        // TEST 9: KeychainService & AIService Parsers
+        // ----------------------------------------------------
+        print("\n[9/9] Testing KeychainService Security & AIService Parser Logic...")
+        
+        let testKeyName = "test_anthropic_key"
+        let testSecret = "sk-ant-test-secret-12345"
+        
+        // Keychain save/load/delete
+        let saved = KeychainService.shared.save(key: testKeyName, value: testSecret)
+        check(saved, "KeychainService successfully saved test API key")
+        
+        let loaded = KeychainService.shared.load(key: testKeyName)
+        check(loaded == testSecret, "KeychainService accurately retrieved secret (got \(loaded ?? "nil"))")
+        
+        let deleted = KeychainService.shared.delete(key: testKeyName)
+        check(deleted, "KeychainService successfully purged key")
+        
+        let loadedAfterDelete = KeychainService.shared.load(key: testKeyName)
+        check(loadedAfterDelete == nil, "KeychainService verifies key is gone after delete")
+        
+        // AIService string array parser tests
+        let jsonInput = "[\"Draft outline\", \"Write intro\", \"Send for review\"]"
+        let parsedJSON = AIService.parseStringArray(from: jsonInput)
+        check(parsedJSON.count == 3, "AIService parses raw JSON array into 3 items (got \(parsedJSON.count))")
+        check(parsedJSON.first == "Draft outline", "First item matches 'Draft outline'")
+        
+        let markdownFenced = """
+        ```json
+        [
+          "Item Alpha",
+          "Item Beta"
+        ]
+        ```
+        """
+        let parsedFenced = AIService.parseStringArray(from: markdownFenced)
+        check(parsedFenced.count == 2, "AIService strips markdown code fences and parses 2 items")
+        check(parsedFenced[1] == "Item Beta", "Second item matches 'Item Beta'")
+        
+        let bulletFallback = """
+        1. First action step
+        2. Second action step
+        - Third action step
+        """
+        let parsedBullets = AIService.parseStringArray(from: bulletFallback)
+        check(parsedBullets.count == 3, "AIService fallback parses numbered/bulleted text (got \(parsedBullets.count))")
+        check(parsedBullets[0] == "First action step", "First bullet stripped properly")
+        
+        // AIProvider enum tests
+        check(AIProvider.anthropic.keychainKey == "anthropic_api_key", "Anthropic keychain key is correct")
+        check(AIProvider.openai.defaultModels.contains("gpt-4o"), "OpenAI default models include gpt-4o")
+        check(AIProvider.grok.defaultModels.contains("grok-2"), "Grok default models include grok-2")
+        check(AIProvider.ollama.defaultModels.contains("llama3.2"), "Ollama default models include llama3.2")
+
         // Restore original user settings
         settings.soundEffectsEnabled = origSound
         settings.allowInProgress = origAllowInProgress
