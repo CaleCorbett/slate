@@ -13,8 +13,6 @@ public struct SlateTheme {
     public static let expandSpring = Animation.spring(response: 0.38, dampingFraction: 0.82)
 }
 
-public typealias GrindTheme = SlateTheme
-
 public enum GeistWeight {
     case regular
     case medium
