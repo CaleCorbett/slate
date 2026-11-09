@@ -44,6 +44,51 @@ A 100% native macOS to-do application built on a strict, minimalist three-list s
 
 ---
 
+## 🤖 AI & Agent Connectivity (The 80/20 Architecture)
+
+Slate connects natively with modern AI agents (**Claude, ChatGPT, Grok, Cursor, Muse**) following an 80/20 split: 80% external agent management, 20% in-app intelligence.
+
+### 1. External Agent Control (80%)
+
+#### Model Context Protocol (MCP) Server
+Directly manage Slate from **Claude Desktop**, **Cursor**, or **ChatGPT Desktop**:
+Add this snippet to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "slate": {
+      "command": "/Users/cale/.local/bin/slate",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+* **Tools**: `slate_list_tasks`, `slate_add_task`, `slate_complete_task`, `slate_get_daily_plan`.
+
+#### Native Standalone CLI (`~/.local/bin/slate`)
+A fast native ARM64 Mach-O binary (<150 KB) for terminal agents and automation:
+```bash
+slate list today                               # View active to-dos
+slate add "Review Q3 deck" --list today        # Add task with optional notes/checklist
+slate done "Review Q3"                         # Complete task by ID or fuzzy title
+slate plan                                     # View today's docket and streak
+slate config-mcp                               # Copy ready-to-paste MCP configuration
+```
+
+#### Embedded `AgentBridgeService` (0.0% Idle CPU)
+* Runs on `127.0.0.1:23119` via Apple `Network.framework`.
+* Rejects cross-origin web browser requests (CSRF immune).
+* Authenticated with high-entropy token stored at `~/.slate/bridge.token` (`chmod 0600`).
+* Real-time MainActor synchronization live-animates changes in Slate.app.
+
+### 2. In-App AI Features (20%)
+
+* **Multi-Provider Keychain Security**: Store API keys for **Anthropic (Claude 3.7)**, **OpenAI (GPT-4o)**, **xAI (Grok-2)**, or local **Ollama** directly in macOS Keychain (`⌘, > AI & Agents`).
+* **✨ Break Down with AI**: Right-click any task or click "AI Breakdown" in the inline checklist to generate 3–6 atomic subtasks.
+* **🌅 AI Suggest Focus**: In the morning Fresh Start Ritual, let AI review your backlog and calendar to recommend an achievable daily docket.
+
+---
+
 ## 🚀 Running the App
 
 ### 1. Build and Install
