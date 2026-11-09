@@ -227,6 +227,7 @@ public final class DataStore: ObservableObject {
         return try? context.fetch(descriptor).first
     }
     
+    @discardableResult
     public func addTask(
         title: String,
         to list: TaskListType,
@@ -235,9 +236,9 @@ public final class DataStore: ObservableObject {
         isEvening: Bool = false,
         recurrenceRule: String? = nil,
         checklistJSON: String? = nil
-    ) {
+    ) -> TodoTask? {
         let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return }
+        guard !trimmed.isEmpty else { return nil }
         
         let existing = tasks(for: list)
         let order = (AppSettings.shared.addTaskPosition == "top")
@@ -264,6 +265,7 @@ public final class DataStore: ObservableObject {
         
         SoundManager.shared.play(.button)
         reloadAll()
+        return task
     }
     
     public func toggleTaskStatus(_ task: TodoTask) {
