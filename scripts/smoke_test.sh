@@ -11,7 +11,7 @@ mkdir -p "$BUILD_DIR"
 
 export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
 
-SOURCES=$(find "$DIR/Sources" -name "*.swift" ! -name "SlateApp.swift" ! -name "GrindApp.swift")
+SOURCES=$(find "$DIR/Sources" -name "*.swift" ! -name "SlateApp.swift")
 TEST_RUNNER="$DIR/Tests/Smoke/SmokeTestRunner.swift"
 TEST_BIN="$BUILD_DIR/smoke_test_runner"
 
@@ -25,5 +25,5 @@ xcrun swiftc \
   -o "$TEST_BIN"
 
 echo "Executing smoke tests (in-memory mode)..."
-GRIND_IN_MEMORY_STORE=1 "$TEST_BIN"
+SLATE_IN_MEMORY_STORE=1 "$TEST_BIN"
 echo "=== Smoke tests finished successfully! ==="

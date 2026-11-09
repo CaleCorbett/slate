@@ -5,7 +5,7 @@ import Foundation
 public final class ReminderService: NSObject, UNUserNotificationCenterDelegate {
     public static let shared = ReminderService()
     
-    public static let categoryIdentifier = "GRIND_TASK_REMINDER"
+    public static let categoryIdentifier = "SLATE_TASK_REMINDER"
     public static let actionComplete = "ACTION_COMPLETE"
     public static let actionSnooze1Hour = "ACTION_SNOOZE_1H"
     public static let actionTomorrow = "ACTION_TOMORROW"

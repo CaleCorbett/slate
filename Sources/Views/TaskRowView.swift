@@ -65,7 +65,7 @@ public struct TaskRowView: View {
                 if isExpanded {
                     TextField("Task title", text: $draftTitle)
                         .font(.geist(.semiBold, size: 15.5))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                         .textFieldStyle(.plain)
                         .focused($focusedField, equals: .title)
                         .onSubmit {
@@ -77,18 +77,18 @@ public struct TaskRowView: View {
                     // Title with animated left-to-right strikethrough line
                     Text(task.title)
                         .font(.geist(.medium, size: 15.5))
-                        .foregroundColor(isCompleted ? GrindColors.secondary : (task.isStaleSomeday && !isHovered ? GrindColors.secondary : GrindColors.primary))
+                        .foregroundColor(isCompleted ? SlateColors.secondary : (task.isStaleSomeday && !isHovered ? SlateColors.secondary : SlateColors.primary))
                         .opacity(task.isStaleSomeday && !isCompleted && !isHovered ? 0.72 : 1.0)
                         .lineLimit(2)
                         .overlay(alignment: .leading) {
                             Rectangle()
-                                .fill(GrindColors.secondary)
+                                .fill(SlateColors.secondary)
                                 .frame(height: 1.5)
                                 .scaleEffect(x: isCompleted ? 1.0 : 0.0, y: 1.0, anchor: .leading)
-                                .animation(GrindTheme.easeSpring, value: isCompleted)
+                                .animation(SlateTheme.easeSpring, value: isCompleted)
                                 .allowsHitTesting(false)
                         }
-                        .animation(GrindTheme.easeSpring, value: isCompleted)
+                        .animation(SlateTheme.easeSpring, value: isCompleted)
                 }
                 
                 Spacer(minLength: 6)
@@ -116,17 +116,17 @@ public struct TaskRowView: View {
         .padding(.horizontal, isExpanded ? 14 : 12)
         .padding(.vertical, isExpanded ? 14 : 11)
         .background(
-            RoundedRectangle(cornerRadius: GrindTheme.rowRadius, style: .continuous)
+            RoundedRectangle(cornerRadius: SlateTheme.rowRadius, style: .continuous)
                 .fill(rowBackgroundColor)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: GrindTheme.rowRadius, style: .continuous)
+            RoundedRectangle(cornerRadius: SlateTheme.rowRadius, style: .continuous)
                 .strokeBorder(rowBorderColor, lineWidth: isExpanded || isSelected ? 1.0 : 0)
         )
         .overlay(alignment: .top) {
             if isTargetedForRowDrop {
                 Capsule()
-                    .fill(GrindColors.primary)
+                    .fill(SlateColors.primary)
                     .frame(height: 2)
                     .padding(.horizontal, 6)
                     .offset(y: -2)
@@ -154,7 +154,7 @@ public struct TaskRowView: View {
             }
             return true
         } isTargeted: { targeted in
-            withAnimation(GrindTheme.snapSpring) {
+            withAnimation(SlateTheme.snapSpring) {
                 isTargetedForRowDrop = targeted
             }
         }
@@ -297,10 +297,10 @@ public struct TaskRowView: View {
                     Text("\(max(1, task.focusSecondsLogged / 60))m")
                         .font(.geist(.mono, size: 9))
                 }
-                .foregroundColor(GrindColors.secondary)
+                .foregroundColor(SlateColors.secondary)
                 .padding(.horizontal, 5)
                 .padding(.vertical, 2)
-                .background(GrindColors.hair.opacity(0.6))
+                .background(SlateColors.hair.opacity(0.6))
                 .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                 .help("Logged \(task.focusSecondsLogged / 60) minutes of focus")
             }
@@ -318,10 +318,10 @@ public struct TaskRowView: View {
                         Text(target.title)
                             .font(.geist(.mono, size: 10.5))
                     }
-                    .foregroundColor(GrindColors.primary)
+                    .foregroundColor(SlateColors.primary)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2.5)
-                    .background(GrindColors.hair)
+                    .background(SlateColors.hair)
                     .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
                 }
                 .buttonStyle(.plain)
@@ -331,9 +331,9 @@ public struct TaskRowView: View {
                 Button(action: onToggleExpand) {
                     Image(systemName: "chevron.down")
                         .font(.system(size: 10, weight: .semibold))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .frame(width: 20, height: 20)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
                 }
                 .buttonStyle(.plain)
@@ -346,7 +346,7 @@ public struct TaskRowView: View {
                 Button(action: onToggleExpand) {
                     Image(systemName: "doc.text")
                         .font(.system(size: 11))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                 }
                 .buttonStyle(.plain)
                 .help("Has notes — click to expand")
@@ -360,10 +360,10 @@ public struct TaskRowView: View {
                     Text(RecurrenceService.displayString(for: rule))
                         .font(.geist(.mono, size: 9.5))
                 }
-                .foregroundColor(GrindColors.secondary)
+                .foregroundColor(SlateColors.secondary)
                 .padding(.horizontal, 5)
                 .padding(.vertical, 2)
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
                 .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                 .help("Repeats \(RecurrenceService.displayString(for: rule))")
             }
@@ -376,10 +376,10 @@ public struct TaskRowView: View {
                     Text("\(summary.completed)/\(summary.total)")
                         .font(.geist(.mono, size: 9.5))
                 }
-                .foregroundColor(summary.completed == summary.total ? .green : GrindColors.secondary)
+                .foregroundColor(summary.completed == summary.total ? .green : SlateColors.secondary)
                 .padding(.horizontal, 5)
                 .padding(.vertical, 2)
-                .background(GrindColors.hair.opacity(0.8))
+                .background(SlateColors.hair.opacity(0.8))
                 .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                 .help("Sub-tasks: \(summary.completed) of \(summary.total) completed")
             }
@@ -392,10 +392,10 @@ public struct TaskRowView: View {
                     Text("\(task.daysUntouched)d")
                         .font(.geist(.mono, size: 9.5))
                 }
-                .foregroundColor(GrindColors.secondary)
+                .foregroundColor(SlateColors.secondary)
                 .padding(.horizontal, 5)
                 .padding(.vertical, 2)
-                .background(GrindColors.hair.opacity(0.8))
+                .background(SlateColors.hair.opacity(0.8))
                 .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                 .help("Untouched for \(task.daysUntouched) days")
             }
@@ -408,10 +408,10 @@ public struct TaskRowView: View {
                     Text(formatTime(reminder))
                         .font(.geist(.mono, size: 11))
                 }
-                .foregroundColor(isOverdue(reminder) ? .red : GrindColors.secondary)
+                .foregroundColor(isOverdue(reminder) ? .red : SlateColors.secondary)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 2.5)
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
                 .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
             }
         }
@@ -422,13 +422,13 @@ public struct TaskRowView: View {
     private var expandedDetailContent: some View {
         VStack(alignment: .leading, spacing: 10) {
             Divider()
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
                 .padding(.top, 8)
             
             // Inline Notes Field
             TextField("Add notes, links, or sub-steps...", text: $draftNotes, axis: .vertical)
                 .font(.geist(.regular, size: 13.5))
-                .foregroundColor(GrindColors.primary.opacity(0.9))
+                .foregroundColor(SlateColors.primary.opacity(0.9))
                 .textFieldStyle(.plain)
                 .lineLimit(2...6)
                 .focused($focusedField, equals: .notes)
@@ -456,10 +456,10 @@ public struct TaskRowView: View {
                                     Image(systemName: "arrow.up.right")
                                         .font(.system(size: 8, weight: .bold))
                                 }
-                                .foregroundColor(GrindColors.primary)
+                                .foregroundColor(SlateColors.primary)
                                 .padding(.horizontal, 7)
                                 .padding(.vertical, 3)
-                                .background(GrindColors.hair)
+                                .background(SlateColors.hair)
                                 .clipShape(Capsule())
                             }
                         }
@@ -477,13 +477,13 @@ public struct TaskRowView: View {
                         } label: {
                             Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
                                 .font(.system(size: 11.5))
-                                .foregroundColor(item.isCompleted ? .green : GrindColors.secondary)
+                                .foregroundColor(item.isCompleted ? .green : SlateColors.secondary)
                         }
                         .buttonStyle(.plain)
                         
                         Text(item.title)
                             .font(.geist(.regular, size: 12.5))
-                            .foregroundColor(item.isCompleted ? GrindColors.secondary : GrindColors.primary)
+                            .foregroundColor(item.isCompleted ? SlateColors.secondary : SlateColors.primary)
                             .strikethrough(item.isCompleted)
                         
                         Spacer()
@@ -493,7 +493,7 @@ public struct TaskRowView: View {
                         } label: {
                             Image(systemName: "xmark")
                                 .font(.system(size: 8))
-                                .foregroundColor(GrindColors.secondary.opacity(0.5))
+                                .foregroundColor(SlateColors.secondary.opacity(0.5))
                         }
                         .buttonStyle(.plain)
                     }
@@ -503,7 +503,7 @@ public struct TaskRowView: View {
                 HStack(spacing: 6) {
                     Image(systemName: "plus")
                         .font(.system(size: 9))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                     TextField("Add sub-task...", text: $newSubItemDraft)
                         .font(.geist(.regular, size: 12))
                         .textFieldStyle(.plain)
@@ -514,7 +514,7 @@ public struct TaskRowView: View {
                 .padding(.top, 2)
             }
             .padding(8)
-            .background(GrindColors.hair.opacity(0.3))
+            .background(SlateColors.hair.opacity(0.3))
             .cornerRadius(6)
             
             // Quick Controls Bar: Reminder Presets + List Switcher + Actions
@@ -547,10 +547,10 @@ public struct TaskRowView: View {
                         Text(task.reminderDate.map { formatTime($0) } ?? "Remind")
                             .font(.geist(.mono, size: 11))
                     }
-                    .foregroundColor(task.reminderDate != nil ? GrindColors.primary : GrindColors.secondary)
+                    .foregroundColor(task.reminderDate != nil ? SlateColors.primary : SlateColors.secondary)
                     .padding(.horizontal, 7)
                     .padding(.vertical, 3.5)
-                    .background(GrindColors.hair)
+                    .background(SlateColors.hair)
                     .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
                 }
                 .menuStyle(.borderlessButton)
@@ -569,10 +569,10 @@ public struct TaskRowView: View {
                                 Text(list.title)
                                     .font(.geist(.mono, size: 10.5))
                             }
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 3.5)
-                            .background(GrindColors.hair.opacity(0.6))
+                            .background(SlateColors.hair.opacity(0.6))
                             .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
                         }
                         .buttonStyle(.plain)
@@ -584,7 +584,7 @@ public struct TaskRowView: View {
                 Button(action: onOpenSheet) {
                     Image(systemName: "slider.horizontal.3")
                         .font(.system(size: 11))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .padding(4)
                 }
                 .buttonStyle(.plain)
@@ -606,20 +606,20 @@ public struct TaskRowView: View {
     
     private var rowBackgroundColor: Color {
         if isExpanded {
-            return GrindColors.hair.opacity(0.75)
+            return SlateColors.hair.opacity(0.75)
         } else if isSelected {
-            return GrindColors.hair.opacity(0.62)
+            return SlateColors.hair.opacity(0.62)
         } else if isHovered {
-            return GrindColors.hair.opacity(0.42)
+            return SlateColors.hair.opacity(0.42)
         }
         return Color.clear
     }
     
     private var rowBorderColor: Color {
         if isExpanded {
-            return GrindColors.primary.opacity(0.22)
+            return SlateColors.primary.opacity(0.22)
         } else if isSelected {
-            return GrindColors.primary.opacity(0.18)
+            return SlateColors.primary.opacity(0.18)
         }
         return Color.clear
     }

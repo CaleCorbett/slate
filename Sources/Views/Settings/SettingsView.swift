@@ -52,14 +52,14 @@ public struct SettingsView: View {
                 ))
                 Text("Start Slate automatically in your menu bar when you boot or log into your Mac.")
                     .font(.caption)
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
             }
             
             Section("Status Steps") {
                 Toggle("Enable 'In Progress' State", isOn: $settings.allowInProgress)
                 Text("When enabled, checking a to-do cycles: To Do → In Progress (half pie) → Done.")
                     .font(.caption)
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
             }
             
             Section("Task Placement & Auto-Move") {
@@ -74,7 +74,7 @@ public struct SettingsView: View {
                 Toggle("Auto-Move Reminders to Today", isOn: $settings.autoMoveRemindersToToday)
                 Text("Any to-do on Next or Someday with a reminder due today slides onto Today automatically.")
                     .font(.caption)
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
                 
                 Toggle("Archive Completed Immediately", isOn: $settings.archiveImmediately)
             }
@@ -90,7 +90,7 @@ public struct SettingsView: View {
                     } else {
                         Text("0 days")
                             .font(.geist(.mono, size: 12))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                     }
                 }
                 
@@ -103,12 +103,12 @@ public struct SettingsView: View {
                 }
                 Text("Displays a subtle warning badge when Today's incomplete tasks exceed your daily threshold.")
                     .font(.caption)
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
                 
                 Toggle("Daily Fresh Start Ritual", isOn: $settings.freshStartRitualEnabled)
                 Text("Prompts you on the first launch of each day to triage yesterday's unfinished to-dos.")
                     .font(.caption)
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
                 
                 Picker("Default Focus Session", selection: $settings.focusDurationMinutes) {
                     Text("15 minutes (Sprint)").tag(15)
@@ -118,12 +118,12 @@ public struct SettingsView: View {
                 }
                 Text("Length of timed focus sessions launched from to-do rows or the ⌘K command palette.")
                     .font(.caption)
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
                 
                 Toggle("Show Today's Calendar Peek", isOn: $settings.showCalendarPeekInToday)
                 Text("Displays a non-intrusive strip of today's calendar events above your tasks.")
                     .font(.caption)
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
             }
             
             Section("Appearance") {
@@ -151,7 +151,7 @@ public struct SettingsView: View {
                 Toggle("Play Sound Effects", isOn: $settings.soundEffectsEnabled)
                 Text("Tactile sound effects on task completion, status progress, and deletion.")
                     .font(.caption)
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
             }
             
             Section("Preview Sounds") {
@@ -183,19 +183,19 @@ public struct SettingsView: View {
                         .font(.system(.body, design: .monospaced))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .cornerRadius(6)
                 }
                 Text("Press anywhere across macOS to summon the Quick-Add HUD.")
                     .font(.caption)
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
             }
             
             Section("Smart Quick-Add") {
                 Toggle("Enable Smart Quick-Add", isOn: $settings.smartQuickAddEnabled)
                 Text("Automatically detects dates, times, and lists. E.g. 'dentist Friday 3pm' sets a reminder for Friday 3:00 PM and puts it on Next.")
                     .font(.caption)
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
             }
         }
         .formStyle(.grouped)
@@ -205,10 +205,10 @@ public struct SettingsView: View {
     private var menuBarTab: some View {
         Form {
             Section("Menu Bar Extra") {
-                Toggle("Show Grind in Menu Bar", isOn: $settings.showInMenuBar)
+                Toggle("Show Slate in Menu Bar", isOn: $settings.showInMenuBar)
                 Text("Keep Today's to-dos accessible right from your Mac's menu bar.")
                     .font(.caption)
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
             }
             
             Section("Badge Count") {
@@ -230,10 +230,10 @@ public struct SettingsView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Import from Apple Reminders or Things 3")
                         .font(.geist(.medium, size: 13))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                     Text("Bring existing incomplete tasks, reminders, and checklists into Slate's Today, Next, or Someday lists.")
                         .font(.caption)
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                 }
                 .padding(.vertical, 4)
                 
@@ -249,10 +249,10 @@ public struct SettingsView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Export All To-Dos")
                         .font(.geist(.medium, size: 13))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                     Text("Save a complete copy of your to-dos, notes, checklists, and focus history for safekeeping or notes apps.")
                         .font(.caption)
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                 }
                 .padding(.vertical, 4)
                 
@@ -290,19 +290,19 @@ public struct SettingsView: View {
             
             Text("Slate")
                 .font(.geist(.bold, size: 22))
-                .foregroundColor(GrindColors.primary)
+                .foregroundColor(SlateColors.primary)
             
             Text("Version 1.0.0")
                 .font(.geist(.regular, size: 12))
-                .foregroundColor(GrindColors.secondary)
+                .foregroundColor(SlateColors.secondary)
             
             Text("Clean slate. Quiet focus.")
                 .font(.geist(.medium, size: 14))
-                .foregroundColor(GrindColors.primary)
+                .foregroundColor(SlateColors.primary)
             
             Text("Three lists. Zero clutter. Stop drowning in endless lists and know what to do today.")
                 .font(.geist(.regular, size: 12))
-                .foregroundColor(GrindColors.secondary)
+                .foregroundColor(SlateColors.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
             
@@ -310,7 +310,7 @@ public struct SettingsView: View {
             
             Text("100% Native macOS App")
                 .font(.caption2)
-                .foregroundColor(GrindColors.secondary.opacity(0.7))
+                .foregroundColor(SlateColors.secondary.opacity(0.7))
             
             Spacer()
         }

@@ -43,7 +43,7 @@ public final class UndoToastManager: ObservableObject {
             )
         }
         
-        withAnimation(GrindTheme.snapSpring) {
+        withAnimation(SlateTheme.snapSpring) {
             canUndo = true
             targetListJump = nil
             if tasks.count == 1, let first = tasks.first {
@@ -57,7 +57,7 @@ public final class UndoToastManager: ObservableObject {
     }
     
     public func showInfo(_ message: String, targetList: TaskListType? = nil) {
-        withAnimation(GrindTheme.snapSpring) {
+        withAnimation(SlateTheme.snapSpring) {
             canUndo = false
             targetListJump = targetList
             currentToastMessage = message
@@ -69,7 +69,7 @@ public final class UndoToastManager: ObservableObject {
         dismissTimer?.invalidate()
         dismissTimer = Timer.scheduledTimer(withTimeInterval: seconds, repeats: false) { [weak self] _ in
             Task { @MainActor [weak self] in
-                withAnimation(GrindTheme.easeSpring) {
+                withAnimation(SlateTheme.easeSpring) {
                     self?.currentToastMessage = nil
                     self?.targetListJump = nil
                 }
@@ -110,7 +110,7 @@ public final class UndoToastManager: ObservableObject {
         
         lastDeletedBatch = []
         canUndo = false
-        withAnimation(GrindTheme.easeSpring) {
+        withAnimation(SlateTheme.easeSpring) {
             currentToastMessage = nil
         }
     }

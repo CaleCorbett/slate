@@ -130,7 +130,7 @@ public final class FocusTimerService: ObservableObject {
         content.sound = .default
         
         let request = UNNotificationRequest(
-            identifier: "grind.focus.completed.\(UUID().uuidString)",
+            identifier: "slate.focus.completed.\(UUID().uuidString)",
             content: content,
             trigger: nil
         )

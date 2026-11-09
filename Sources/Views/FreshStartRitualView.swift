@@ -18,11 +18,11 @@ public struct FreshStartRitualView: View {
                     VStack(alignment: .leading, spacing: 3) {
                         Text("Fresh Start Ritual")
                             .font(.geist(.bold, size: 16))
-                            .foregroundColor(GrindColors.primary)
+                            .foregroundColor(SlateColors.primary)
                         
                         Text("Unfinished to-dos from previous days. Triage or keep intentionally.")
                             .font(.geist(.regular, size: 12))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                     }
                 }
                 
@@ -34,14 +34,14 @@ public struct FreshStartRitualView: View {
                 .font(.geist(.semiBold, size: 13))
                 .keyboardShortcut(.defaultAction)
                 .buttonStyle(.borderedProminent)
-                .tint(GrindColors.primary)
+                .tint(SlateColors.primary)
             }
             .padding(.horizontal, 22)
             .padding(.top, 20)
             .padding(.bottom, 14)
             
             Divider()
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
             
             let carryovers = store.carryoverTodayTasks
             
@@ -53,17 +53,17 @@ public struct FreshStartRitualView: View {
                         .foregroundColor(.green)
                     Text("Today is clear and focused.")
                         .font(.geist(.semiBold, size: 15))
-                        .foregroundColor(GrindColors.primary)
-                    Text("No unfinished tasks carried over. You're ready to grind.")
+                        .foregroundColor(SlateColors.primary)
+                    Text("No unfinished tasks carried over. You have a clean slate.")
                         .font(.geist(.regular, size: 13))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                     
                     Button("Start Day") {
                         dismissRitual()
                     }
                     .padding(.top, 8)
                     .buttonStyle(.borderedProminent)
-                    .tint(GrindColors.primary)
+                    .tint(SlateColors.primary)
                     Spacer()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -73,12 +73,12 @@ public struct FreshStartRitualView: View {
                 HStack(spacing: 10) {
                     Text("\(carryovers.count) to-do\(carryovers.count == 1 ? "" : "s") remaining")
                         .font(.geist(.mono, size: 11.5))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                     
                     Spacer()
                     
                     Button(action: {
-                        withAnimation(GrindTheme.easeSpring) {
+                        withAnimation(SlateTheme.easeSpring) {
                             store.keepTasksInToday(carryovers)
                         }
                     }) {
@@ -88,11 +88,11 @@ public struct FreshStartRitualView: View {
                     .buttonStyle(.plain)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(GrindColors.hair)
+                    .background(SlateColors.hair)
                     .cornerRadius(6)
                     
                     Button(action: {
-                        withAnimation(GrindTheme.easeSpring) {
+                        withAnimation(SlateTheme.easeSpring) {
                             store.moveTasks(carryovers, to: .next)
                         }
                     }) {
@@ -102,15 +102,15 @@ public struct FreshStartRitualView: View {
                     .buttonStyle(.plain)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(GrindColors.hair)
+                    .background(SlateColors.hair)
                     .cornerRadius(6)
                 }
                 .padding(.horizontal, 22)
                 .padding(.vertical, 10)
-                .background(GrindColors.hair.opacity(0.2))
+                .background(SlateColors.hair.opacity(0.2))
                 
                 Divider()
-                    .background(GrindColors.hair)
+                    .background(SlateColors.hair)
                 
                 // Task List
                 ScrollView {
@@ -124,7 +124,7 @@ public struct FreshStartRitualView: View {
             }
         }
         .frame(width: 580, height: 460)
-        .background(GrindColors.bg)
+        .background(SlateColors.bg)
     }
     
     private func carryoverRow(for task: TodoTask) -> some View {
@@ -132,13 +132,13 @@ public struct FreshStartRitualView: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text(task.title)
                     .font(.geist(.medium, size: 14))
-                    .foregroundColor(GrindColors.primary)
+                    .foregroundColor(SlateColors.primary)
                     .lineLimit(1)
                 
                 if let notes = task.notes, !notes.isEmpty {
                     Text(notes)
                         .font(.geist(.regular, size: 11.5))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .lineLimit(1)
                 }
             }
@@ -148,7 +148,7 @@ public struct FreshStartRitualView: View {
             // Action Buttons
             HStack(spacing: 6) {
                 Button(action: {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         store.keepTasksInToday([task])
                     }
                 }) {
@@ -156,14 +156,14 @@ public struct FreshStartRitualView: View {
                         .font(.geist(.medium, size: 11))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3.5)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .cornerRadius(5)
                 }
                 .buttonStyle(.plain)
                 .help("Keep in Today for today's session")
                 
                 Button(action: {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         store.moveTask(task, to: .next)
                     }
                 }) {
@@ -171,14 +171,14 @@ public struct FreshStartRitualView: View {
                         .font(.geist(.medium, size: 11))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3.5)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .cornerRadius(5)
                 }
                 .buttonStyle(.plain)
                 .help("Move to Next")
                 
                 Button(action: {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         store.moveTask(task, to: .someday)
                     }
                 }) {
@@ -186,14 +186,14 @@ public struct FreshStartRitualView: View {
                         .font(.geist(.medium, size: 11))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3.5)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .cornerRadius(5)
                 }
                 .buttonStyle(.plain)
                 .help("Move to Someday")
                 
                 Button(action: {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         store.setStatus(.completed, for: [task])
                     }
                 }) {
@@ -210,11 +210,11 @@ public struct FreshStartRitualView: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
-        .background(GrindColors.cardToday)
+        .background(SlateColors.cardToday)
         .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(GrindColors.hair, lineWidth: 1)
+                .stroke(SlateColors.hair, lineWidth: 1)
         )
     }
     

@@ -22,10 +22,10 @@ public struct ArchiveView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(selectedTab == .logbook ? "Logbook" : "Recently Deleted")
                         .font(.geist(.bold, size: 18))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                     Text(selectedTab == .logbook ? "Your completed to-dos, organized by day" : "Safety net for deleted tasks before permanent removal")
                         .font(.geist(.regular, size: 12))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                 }
                 Spacer()
                 
@@ -51,7 +51,7 @@ public struct ArchiveView: View {
                 }
                 .font(.geist(.semiBold, size: 13))
                 .buttonStyle(.borderedProminent)
-                .tint(GrindColors.primary)
+                .tint(SlateColors.primary)
             }
             .padding(18)
             
@@ -65,25 +65,25 @@ public struct ArchiveView: View {
             .padding(.bottom, 10)
             
             Divider()
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
             
             // Search Bar
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
                 TextField(selectedTab == .logbook ? "Search logbook..." : "Search trash...", text: $searchText)
                     .textFieldStyle(.plain)
                     .font(.geist(.regular, size: 14))
                 if !searchText.isEmpty {
                     Button(action: { searchText = "" }) {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                     }
                     .buttonStyle(.plain)
                 }
             }
             .padding(10)
-            .background(GrindColors.hair.opacity(0.4))
+            .background(SlateColors.hair.opacity(0.4))
             .cornerRadius(8)
             .padding(.horizontal, 18)
             .padding(.vertical, 10)
@@ -95,7 +95,7 @@ public struct ArchiveView: View {
             }
         }
         .frame(width: 520, height: 500)
-        .background(GrindColors.bg)
+        .background(SlateColors.bg)
     }
     
     // MARK: - Logbook View
@@ -107,10 +107,10 @@ public struct ArchiveView: View {
                     Spacer()
                     Image(systemName: "archivebox")
                         .font(.system(size: 32))
-                        .foregroundColor(GrindColors.secondary.opacity(0.4))
+                        .foregroundColor(SlateColors.secondary.opacity(0.4))
                     Text("No completed to-dos yet")
                         .font(.geist(.medium, size: 15))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
@@ -121,16 +121,16 @@ public struct ArchiveView: View {
                             ForEach(group.tasks) { task in
                                 HStack {
                                     Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(GrindColors.secondary)
+                                        .foregroundColor(SlateColors.secondary)
                                     VStack(alignment: .leading, spacing: 2) {
                                         Text(task.title)
                                             .font(.geist(.medium, size: 14))
-                                            .strikethrough(true, color: GrindColors.secondary)
-                                            .foregroundColor(GrindColors.secondary)
+                                            .strikethrough(true, color: SlateColors.secondary)
+                                            .foregroundColor(SlateColors.secondary)
                                         if let compDate = task.completionDate {
                                             Text(Self.timeOnlyFormatter.string(from: compDate))
                                                 .font(.geist(.regular, size: 11))
-                                                .foregroundColor(GrindColors.secondary.opacity(0.8))
+                                                .foregroundColor(SlateColors.secondary.opacity(0.8))
                                         }
                                     }
                                     Spacer()
@@ -142,10 +142,10 @@ public struct ArchiveView: View {
                                     }
                                     .buttonStyle(.plain)
                                     .font(.geist(.medium, size: 12))
-                                    .foregroundColor(GrindColors.primary)
+                                    .foregroundColor(SlateColors.primary)
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 4)
-                                    .background(GrindColors.hair)
+                                    .background(SlateColors.hair)
                                     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                                 }
                                 .padding(.vertical, 3)
@@ -161,11 +161,11 @@ public struct ArchiveView: View {
                             HStack {
                                 Text(group.title)
                                     .font(.geist(.semiBold, size: 12.5))
-                                    .foregroundColor(GrindColors.primary)
+                                    .foregroundColor(SlateColors.primary)
                                 Spacer()
                                 Text("\(group.tasks.count) completed")
                                     .font(.geist(.mono, size: 11))
-                                    .foregroundColor(GrindColors.secondary)
+                                    .foregroundColor(SlateColors.secondary)
                             }
                             .padding(.vertical, 4)
                         }
@@ -185,10 +185,10 @@ public struct ArchiveView: View {
                     Spacer()
                     Image(systemName: "trash")
                         .font(.system(size: 32))
-                        .foregroundColor(GrindColors.secondary.opacity(0.4))
+                        .foregroundColor(SlateColors.secondary.opacity(0.4))
                     Text(searchText.isEmpty ? "Trash is empty" : "No deleted to-dos match your search")
                         .font(.geist(.medium, size: 15))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
@@ -203,21 +203,21 @@ public struct ArchiveView: View {
                             VStack(alignment: .leading, spacing: 3) {
                                 Text(task.title)
                                     .font(.geist(.medium, size: 14))
-                                    .foregroundColor(GrindColors.primary)
+                                    .foregroundColor(SlateColors.primary)
                                 
                                 HStack(spacing: 6) {
                                     Text(task.list.title)
                                         .font(.geist(.mono, size: 10))
                                         .padding(.horizontal, 5)
                                         .padding(.vertical, 1.5)
-                                        .background(GrindColors.hair)
+                                        .background(SlateColors.hair)
                                         .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
-                                        .foregroundColor(GrindColors.secondary)
+                                        .foregroundColor(SlateColors.secondary)
                                     
                                     if let delDate = task.deletedDate {
                                         Text("Deleted \(formatDate(delDate))")
                                             .font(.geist(.regular, size: 11))
-                                            .foregroundColor(GrindColors.secondary.opacity(0.8))
+                                            .foregroundColor(SlateColors.secondary.opacity(0.8))
                                     }
                                 }
                             }
@@ -229,10 +229,10 @@ public struct ArchiveView: View {
                             }
                             .buttonStyle(.plain)
                             .font(.geist(.medium, size: 12))
-                            .foregroundColor(GrindColors.primary)
+                            .foregroundColor(SlateColors.primary)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
-                            .background(GrindColors.hair)
+                            .background(SlateColors.hair)
                             .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                             
                             Button(action: {
@@ -240,9 +240,9 @@ public struct ArchiveView: View {
                             }) {
                                 Image(systemName: "xmark")
                                     .font(.system(size: 11, weight: .bold))
-                                    .foregroundColor(GrindColors.secondary.opacity(0.8))
+                                    .foregroundColor(SlateColors.secondary.opacity(0.8))
                                     .padding(6)
-                                    .background(GrindColors.hair.opacity(0.6))
+                                    .background(SlateColors.hair.opacity(0.6))
                                     .clipShape(Circle())
                             }
                             .buttonStyle(.plain)

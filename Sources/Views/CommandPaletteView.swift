@@ -83,7 +83,7 @@ public struct CommandPaletteView: View {
             HStack(spacing: 12) {
                 Image(systemName: "magnifyingglass")
                     .font(.system(size: 15, weight: .medium))
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
                 
                 TextField("Type a command or search to-dos…", text: $searchText)
                     .font(.geist(.regular, size: 15))
@@ -102,17 +102,17 @@ public struct CommandPaletteView: View {
                         selectedIndex = 0
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                     }
                     .buttonStyle(.plain)
                 }
                 
                 Text("ESC to close")
                     .font(.caption2)
-                    .foregroundColor(GrindColors.secondary.opacity(0.6))
+                    .foregroundColor(SlateColors.secondary.opacity(0.6))
                     .padding(.horizontal, 6)
                     .padding(.vertical, 3)
-                    .background(GrindColors.hair)
+                    .background(SlateColors.hair)
                     .cornerRadius(4)
             }
             .padding(.horizontal, 18)
@@ -126,10 +126,10 @@ public struct CommandPaletteView: View {
                     Spacer()
                     Image(systemName: "questionmark.folder")
                         .font(.system(size: 28))
-                        .foregroundColor(GrindColors.secondary.opacity(0.5))
+                        .foregroundColor(SlateColors.secondary.opacity(0.5))
                     Text("No commands or to-dos found")
                         .font(.geist(.regular, size: 13))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                     Spacer()
                 }
                 .frame(height: 220)
@@ -151,7 +151,7 @@ public struct CommandPaletteView: View {
                     }
                     .frame(maxHeight: 320)
                     .onChange(of: selectedIndex) { _, newIndex in
-                        withAnimation(GrindTheme.easeSpring) {
+                        withAnimation(SlateTheme.easeSpring) {
                             proxy.scrollTo(newIndex, anchor: .center)
                         }
                     }
@@ -161,12 +161,12 @@ public struct CommandPaletteView: View {
         .frame(width: 560)
         .background(
             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(GrindColors.cardToday)
+                .fill(SlateColors.cardToday)
                 .shadow(color: Color.black.opacity(0.28), radius: 30, x: 0, y: 15)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .stroke(GrindColors.hair.opacity(0.8), lineWidth: 1)
+                .stroke(SlateColors.hair.opacity(0.8), lineWidth: 1)
         )
         .onAppear {
             isSearchFocused = true
@@ -203,17 +203,17 @@ public struct CommandPaletteView: View {
             case .action(_, let title, let subtitle, let icon, let shortcut):
                 Image(systemName: icon)
                     .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(isSelected ? GrindColors.primary : GrindColors.secondary)
+                    .foregroundColor(isSelected ? SlateColors.primary : SlateColors.secondary)
                     .frame(width: 22)
                 
                 VStack(alignment: .leading, spacing: 1) {
                     Text(title)
                         .font(.geist(.medium, size: 13))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                     if let subtitle = subtitle {
                         Text(subtitle)
                             .font(.caption2)
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                     }
                 }
                 
@@ -222,22 +222,22 @@ public struct CommandPaletteView: View {
                 if let shortcut = shortcut {
                     Text(shortcut)
                         .font(.geist(.mono, size: 11))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .cornerRadius(4)
                 }
                 
             case .task(_, let title, let list, let status):
                 Image(systemName: status == .completed ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 13))
-                    .foregroundColor(status == .completed ? .green : GrindColors.secondary)
+                    .foregroundColor(status == .completed ? .green : SlateColors.secondary)
                     .frame(width: 22)
                 
                 Text(title)
                     .font(.geist(.regular, size: 13))
-                    .foregroundColor(GrindColors.primary)
+                    .foregroundColor(SlateColors.primary)
                     .strikethrough(status == .completed)
                     .lineLimit(1)
                 
@@ -245,10 +245,10 @@ public struct CommandPaletteView: View {
                 
                 Text(list.title)
                     .font(.geist(.mono, size: 10))
-                    .foregroundColor(list == .today ? .orange : GrindColors.secondary)
+                    .foregroundColor(list == .today ? .orange : SlateColors.secondary)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
-                    .background(list == .today ? Color.orange.opacity(0.15) : GrindColors.hair)
+                    .background(list == .today ? Color.orange.opacity(0.15) : SlateColors.hair)
                     .cornerRadius(4)
             }
         }
@@ -256,7 +256,7 @@ public struct CommandPaletteView: View {
         .padding(.vertical, 8)
         .background(
             RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(isSelected ? GrindColors.hair : Color.clear)
+                .fill(isSelected ? SlateColors.hair : Color.clear)
         )
     }
     

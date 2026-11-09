@@ -20,10 +20,6 @@ public final class ServicesProvider: NSObject {
         processIncomingText(text)
     }
     
-    @objc public func handleSendToGrindService(_ pboard: NSPasteboard, userData: String?, error: AutoreleasingUnsafeMutablePointer<NSString?>?) {
-        handleSendToSlateService(pboard, userData: userData, error: error)
-    }
-    
     public func processIncomingText(_ text: String) {
         let parsed = QuickAddParser.parse(text)
         let finalTitle = parsed.cleanTitle.isEmpty ? text : parsed.cleanTitle

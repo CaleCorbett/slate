@@ -18,11 +18,11 @@ public struct StaleReviewSheet: View {
                     VStack(alignment: .leading, spacing: 3) {
                         Text("Someday Ideas Review")
                             .font(.geist(.bold, size: 16))
-                            .foregroundColor(GrindColors.primary)
+                            .foregroundColor(SlateColors.primary)
                         
                         Text("Untouched for 30+ days. Rekindle them, promote to active lists, or purge.")
                             .font(.geist(.regular, size: 12))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                     }
                 }
                 
@@ -34,14 +34,14 @@ public struct StaleReviewSheet: View {
                 .font(.geist(.semiBold, size: 13))
                 .keyboardShortcut(.defaultAction)
                 .buttonStyle(.borderedProminent)
-                .tint(GrindColors.primary)
+                .tint(SlateColors.primary)
             }
             .padding(.horizontal, 22)
             .padding(.top, 20)
             .padding(.bottom, 14)
             
             Divider()
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
             
             let staleTasks = store.staleSomedayTasks
             
@@ -53,17 +53,17 @@ public struct StaleReviewSheet: View {
                         .foregroundColor(.purple)
                     Text("Your Someday list is fresh.")
                         .font(.geist(.semiBold, size: 15))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                     Text("No stale ideas lingering untouched for over a month.")
                         .font(.geist(.regular, size: 13))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                     
                     Button("Close") {
                         dismiss()
                     }
                     .padding(.top, 8)
                     .buttonStyle(.borderedProminent)
-                    .tint(GrindColors.primary)
+                    .tint(SlateColors.primary)
                     Spacer()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -73,12 +73,12 @@ public struct StaleReviewSheet: View {
                 HStack(spacing: 10) {
                     Text("\(staleTasks.count) stale idea\(staleTasks.count == 1 ? "" : "s")")
                         .font(.geist(.mono, size: 11.5))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                     
                     Spacer()
                     
                     Button(action: {
-                        withAnimation(GrindTheme.easeSpring) {
+                        withAnimation(SlateTheme.easeSpring) {
                             store.touchTasks(staleTasks)
                         }
                     }) {
@@ -88,11 +88,11 @@ public struct StaleReviewSheet: View {
                     .buttonStyle(.plain)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(GrindColors.hair)
+                    .background(SlateColors.hair)
                     .cornerRadius(6)
                     
                     Button(action: {
-                        withAnimation(GrindTheme.easeSpring) {
+                        withAnimation(SlateTheme.easeSpring) {
                             for t in staleTasks {
                                 t.isArchived = true
                             }
@@ -106,15 +106,15 @@ public struct StaleReviewSheet: View {
                     .buttonStyle(.plain)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(GrindColors.hair)
+                    .background(SlateColors.hair)
                     .cornerRadius(6)
                 }
                 .padding(.horizontal, 22)
                 .padding(.vertical, 10)
-                .background(GrindColors.hair.opacity(0.2))
+                .background(SlateColors.hair.opacity(0.2))
                 
                 Divider()
-                    .background(GrindColors.hair)
+                    .background(SlateColors.hair)
                 
                 // Stale Task List
                 ScrollView {
@@ -128,7 +128,7 @@ public struct StaleReviewSheet: View {
             }
         }
         .frame(width: 580, height: 460)
-        .background(GrindColors.bg)
+        .background(SlateColors.bg)
     }
     
     private func staleRow(for task: TodoTask) -> some View {
@@ -137,22 +137,22 @@ public struct StaleReviewSheet: View {
                 HStack(spacing: 6) {
                     Text(task.title)
                         .font(.geist(.medium, size: 14))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                         .lineLimit(1)
                     
                     Text("\(task.daysUntouched)d untouched")
                         .font(.geist(.mono, size: 10))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .padding(.horizontal, 5)
                         .padding(.vertical, 1.5)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .clipShape(Capsule())
                 }
                 
                 if let notes = task.notes, !notes.isEmpty {
                     Text(notes)
                         .font(.geist(.regular, size: 11.5))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .lineLimit(1)
                 }
             }
@@ -162,7 +162,7 @@ public struct StaleReviewSheet: View {
             // Action Buttons
             HStack(spacing: 6) {
                 Button(action: {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         store.touchTasks([task])
                     }
                 }) {
@@ -170,14 +170,14 @@ public struct StaleReviewSheet: View {
                         .font(.geist(.medium, size: 11))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3.5)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .cornerRadius(5)
                 }
                 .buttonStyle(.plain)
                 .help("Reset stale counter & keep in Someday")
                 
                 Button(action: {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         store.moveTask(task, to: .today)
                     }
                 }) {
@@ -185,14 +185,14 @@ public struct StaleReviewSheet: View {
                         .font(.geist(.medium, size: 11))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3.5)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .cornerRadius(5)
                 }
                 .buttonStyle(.plain)
                 .help("Promote to Today")
                 
                 Button(action: {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         store.moveTask(task, to: .next)
                     }
                 }) {
@@ -200,14 +200,14 @@ public struct StaleReviewSheet: View {
                         .font(.geist(.medium, size: 11))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3.5)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .cornerRadius(5)
                 }
                 .buttonStyle(.plain)
                 .help("Promote to Next")
                 
                 Button(action: {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         task.isArchived = true
                         try? store.context.save()
                         store.reloadAll()
@@ -215,9 +215,9 @@ public struct StaleReviewSheet: View {
                 }) {
                     Image(systemName: "archivebox")
                         .font(.system(size: 10.5))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .frame(width: 22, height: 22)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .clipShape(Circle())
                 }
                 .buttonStyle(.plain)
@@ -226,11 +226,11 @@ public struct StaleReviewSheet: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
-        .background(GrindColors.cardSomeday)
+        .background(SlateColors.cardSomeday)
         .cornerRadius(8)
         .overlay(
             RoundedRectangle(cornerRadius: 8)
-                .stroke(GrindColors.hair, lineWidth: 1)
+                .stroke(SlateColors.hair, lineWidth: 1)
         )
     }
 }

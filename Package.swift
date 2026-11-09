@@ -2,19 +2,19 @@
 import PackageDescription
 
 let package = Package(
-    name: "Grind",
+    name: "Slate",
     platforms: [
         .macOS(.v14)
     ],
     products: [
         .executable(
-            name: "Grind",
-            targets: ["Grind"]
+            name: "Slate",
+            targets: ["Slate"]
         )
     ],
     targets: [
         .executableTarget(
-            name: "Grind",
+            name: "Slate",
             path: "Sources"
         )
     ]

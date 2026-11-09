@@ -26,7 +26,7 @@ public final class DataStore: ObservableObject {
     
     private init() {
         let schema = Schema([TodoTask.self])
-        let inMemoryEnv = ProcessInfo.processInfo.environment["GRIND_IN_MEMORY_STORE"] == "1"
+        let inMemoryEnv = ProcessInfo.processInfo.environment["SLATE_IN_MEMORY_STORE"] == "1"
         
         if inMemoryEnv {
             let memConfig = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)

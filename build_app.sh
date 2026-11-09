@@ -29,7 +29,6 @@ BUILT_APP="$DERIVED_DATA/Build/Products/Release/$APP_NAME.app"
 
 echo "Installing to $INSTALL_PATH..."
 killall "$APP_NAME" 2>/dev/null || true
-killall "Grind" 2>/dev/null || true
 sleep 0.3
 rm -rf "$INSTALL_PATH"
 cp -R "$BUILT_APP" "$INSTALL_PATH"

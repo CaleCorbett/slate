@@ -116,7 +116,7 @@ public struct TaskListCardView: View {
             }
             
             Divider()
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
             
             // Calendar Events Peek Strip (Today card)
             if listType == .today && AppSettings.shared.showCalendarPeekInToday && !calendarPeek.todayEvents.isEmpty {
@@ -141,12 +141,12 @@ public struct TaskListCardView: View {
                             HStack(spacing: 8) {
                                 Image(systemName: "moon.stars.fill")
                                     .font(.system(size: 10))
-                                    .foregroundColor(GrindColors.secondary)
+                                    .foregroundColor(SlateColors.secondary)
                                 Text("This Evening")
                                     .font(.geist(.semiBold, size: 12))
-                                    .foregroundColor(GrindColors.secondary)
+                                    .foregroundColor(SlateColors.secondary)
                                 Rectangle()
-                                    .fill(GrindColors.hair)
+                                    .fill(SlateColors.hair)
                                     .frame(height: 1)
                             }
                             .padding(.top, 8)
@@ -166,18 +166,18 @@ public struct TaskListCardView: View {
             Spacer(minLength: 0)
             
             Divider()
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
             
             // Inline Quick-Add Footer
             inlineInputBar
         }
         .padding(20)
-        .background(GrindColors.cardBackground(for: listType))
-        .clipShape(RoundedRectangle(cornerRadius: GrindTheme.cardRadius, style: .continuous))
+        .background(SlateColors.cardBackground(for: listType))
+        .clipShape(RoundedRectangle(cornerRadius: SlateTheme.cardRadius, style: .continuous))
         .overlay(
-            RoundedRectangle(cornerRadius: GrindTheme.cardRadius, style: .continuous)
+            RoundedRectangle(cornerRadius: SlateTheme.cardRadius, style: .continuous)
                 .stroke(
-                    isTargetedForDrop ? GrindColors.primary : GrindColors.cardBorder,
+                    isTargetedForDrop ? SlateColors.primary : SlateColors.cardBorder,
                     lineWidth: isTargetedForDrop ? 2.0 : 1.0
                 )
         )
@@ -188,8 +188,8 @@ public struct TaskListCardView: View {
             x: 0,
             y: isTargetedForDrop ? 8 : 3
         )
-        .animation(GrindTheme.snapSpring, value: isTargetedForDrop)
-        .animation(GrindTheme.snapSpring, value: shouldShowBatchBar)
+        .animation(SlateTheme.snapSpring, value: isTargetedForDrop)
+        .animation(SlateTheme.snapSpring, value: shouldShowBatchBar)
         .onChange(of: selectedTasksInCard.isEmpty) { _, isEmpty in
             if isEmpty {
                 isSelectionModeActive = false
@@ -216,7 +216,7 @@ public struct TaskListCardView: View {
                 HStack(spacing: 8) {
                     Text(listType.title)
                         .font(.geist(.bold, size: 19))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                     
                     // Progress Ring + Monospace Counter Pill (click to Mark All Complete / Reset)
                     let isAllDone = !tasks.isEmpty && completedCount == tasks.count
@@ -229,39 +229,39 @@ public struct TaskListCardView: View {
                                 ZStack {
                                     if isAllDone {
                                         Circle()
-                                            .fill(GrindColors.primary)
+                                            .fill(SlateColors.primary)
                                             .frame(width: 12, height: 12)
                                             .transition(.scale.combined(with: .opacity))
                                         Image(systemName: "checkmark")
                                             .font(.system(size: 7, weight: .bold))
-                                            .foregroundColor(GrindColors.primaryInverted)
+                                            .foregroundColor(SlateColors.primaryInverted)
                                     } else {
                                         Circle()
-                                            .stroke(GrindColors.primary.opacity(0.16), lineWidth: 2)
+                                            .stroke(SlateColors.primary.opacity(0.16), lineWidth: 2)
                                             .frame(width: 11, height: 11)
                                         
                                         Circle()
                                             .trim(from: 0, to: completionFraction)
                                             .stroke(
-                                                GrindColors.primary,
+                                                SlateColors.primary,
                                                 style: StrokeStyle(lineWidth: 2, lineCap: .round)
                                             )
                                             .rotationEffect(.degrees(-90))
                                             .frame(width: 11, height: 11)
-                                            .animation(GrindTheme.easeSpring, value: completionFraction)
+                                            .animation(SlateTheme.easeSpring, value: completionFraction)
                                     }
                                 }
                                 .scaleEffect(isAllDone ? 1.08 : 1.0)
-                                .animation(GrindTheme.snapSpring, value: isAllDone)
+                                .animation(SlateTheme.snapSpring, value: isAllDone)
                             }
                             
                             Text(!tasks.isEmpty ? "\(completedCount)/\(tasks.count)" : "0")
                                 .font(.geist(.mono, size: 11.5))
-                                .foregroundColor(isAllDone ? GrindColors.primary : GrindColors.secondary)
+                                .foregroundColor(isAllDone ? SlateColors.primary : SlateColors.secondary)
                         }
                         .padding(.horizontal, 7)
                         .padding(.vertical, 2.5)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .clipShape(Capsule())
                     }
                     .buttonStyle(.plain)
@@ -272,7 +272,7 @@ public struct TaskListCardView: View {
                     HStack(spacing: 6) {
                         Text(formattedTodayDate)
                             .font(.geist(.mono, size: 10.5))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                             .textCase(.uppercase)
                             .tracking(0.5)
                         
@@ -332,7 +332,7 @@ public struct TaskListCardView: View {
                     HStack(spacing: 6) {
                         Text(listType.subtitle)
                             .font(.geist(.regular, size: 11))
-                            .foregroundColor(GrindColors.secondary.opacity(0.85))
+                            .foregroundColor(SlateColors.secondary.opacity(0.85))
                             .lineLimit(1)
                         
                         let staleCount = DataStore.shared.staleSomedayTasks.count
@@ -357,7 +357,7 @@ public struct TaskListCardView: View {
                 } else {
                     Text(listType.subtitle)
                         .font(.geist(.regular, size: 11))
-                        .foregroundColor(GrindColors.secondary.opacity(0.85))
+                        .foregroundColor(SlateColors.secondary.opacity(0.85))
                         .lineLimit(1)
                 }
             }
@@ -373,9 +373,9 @@ public struct TaskListCardView: View {
                 }) {
                     Image(systemName: isFocusedCard ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
                         .font(.system(size: 11, weight: .semibold))
-                        .foregroundColor(isFocusedCard ? GrindColors.primaryInverted : GrindColors.secondary)
+                        .foregroundColor(isFocusedCard ? SlateColors.primaryInverted : SlateColors.secondary)
                         .frame(width: 26, height: 26)
-                        .background(isFocusedCard ? GrindColors.primary : GrindColors.hair.opacity(0.6))
+                        .background(isFocusedCard ? SlateColors.primary : SlateColors.hair.opacity(0.6))
                         .clipShape(Circle())
                 }
                 .buttonStyle(.plain)
@@ -388,7 +388,7 @@ public struct TaskListCardView: View {
                     .disabled(tasks.isEmpty)
                     
                     Button(isAllSelectedInCard ? "Deselect All in \(listType.title)" : "Select All in \(listType.title) (\(tasks.count))") {
-                        withAnimation(GrindTheme.snapSpring) {
+                        withAnimation(SlateTheme.snapSpring) {
                             if isAllSelectedInCard {
                                 isSelectionModeActive = false
                                 onDeselectAllInGroup(listType)
@@ -431,9 +431,9 @@ public struct TaskListCardView: View {
                 } label: {
                     Image(systemName: "ellipsis")
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .frame(width: 26, height: 26)
-                        .background(GrindColors.hair.opacity(0.5))
+                        .background(SlateColors.hair.opacity(0.5))
                         .clipShape(Circle())
                 }
                 .menuStyle(.borderlessButton)
@@ -464,7 +464,7 @@ public struct TaskListCardView: View {
         return HStack(spacing: 6) {
             // Selection count & Select All / Clear toggle
             Button(action: {
-                withAnimation(GrindTheme.snapSpring) {
+                withAnimation(SlateTheme.snapSpring) {
                     if isAllSelectedInCard {
                         isSelectionModeActive = false
                         onDeselectAllInGroup(listType)
@@ -480,10 +480,10 @@ public struct TaskListCardView: View {
                     Text("\(selected.count)/\(tasks.count)")
                         .font(.geist(.mono, size: 11))
                 }
-                .foregroundColor(GrindColors.primary)
+                .foregroundColor(SlateColors.primary)
                 .padding(.horizontal, 7)
                 .padding(.vertical, 3.5)
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
                 .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
             }
             .buttonStyle(.plain)
@@ -500,10 +500,10 @@ public struct TaskListCardView: View {
                     Text(allSelectedCompleted ? "Reset" : "Done")
                         .font(.geist(.medium, size: 11))
                 }
-                .foregroundColor(GrindColors.primaryInverted)
+                .foregroundColor(SlateColors.primaryInverted)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 3.5)
-                .background(GrindColors.primary)
+                .background(SlateColors.primary)
                 .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
             }
             .buttonStyle(.plain)
@@ -521,10 +521,10 @@ public struct TaskListCardView: View {
                             Text(target.title)
                                 .font(.geist(.mono, size: 10.5))
                         }
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                         .padding(.horizontal, 6.5)
                         .padding(.vertical, 3.5)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
                     }
                     .buttonStyle(.plain)
@@ -551,16 +551,16 @@ public struct TaskListCardView: View {
             
             // Clear selection X button
             Button(action: {
-                withAnimation(GrindTheme.snapSpring) {
+                withAnimation(SlateTheme.snapSpring) {
                     isSelectionModeActive = false
                     onDeselectAllInGroup(listType)
                 }
             }) {
                 Image(systemName: "xmark")
                     .font(.system(size: 9.5, weight: .bold))
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
                     .frame(width: 22, height: 22)
-                    .background(GrindColors.hair)
+                    .background(SlateColors.hair)
                     .clipShape(Circle())
             }
             .buttonStyle(.plain)
@@ -570,11 +570,11 @@ public struct TaskListCardView: View {
         .padding(.vertical, 6)
         .background(
             RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(GrindColors.hair.opacity(0.65))
+                .fill(SlateColors.hair.opacity(0.65))
         )
         .overlay(
             RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .strokeBorder(GrindColors.cardBorder, lineWidth: 1)
+                .strokeBorder(SlateColors.cardBorder, lineWidth: 1)
         )
         .padding(.bottom, 10)
     }
@@ -587,21 +587,21 @@ public struct TaskListCardView: View {
                 ForEach(calendarPeek.todayEvents) { event in
                     HStack(spacing: 6) {
                         Circle()
-                            .fill(event.isNow ? Color.orange : GrindColors.secondary.opacity(0.6))
+                            .fill(event.isNow ? Color.orange : SlateColors.secondary.opacity(0.6))
                             .frame(width: 6, height: 6)
                         
                         Text(event.formattedTime)
                             .font(.geist(.mono, size: 10.5))
-                            .foregroundColor(event.isNow ? .orange : GrindColors.secondary)
+                            .foregroundColor(event.isNow ? .orange : SlateColors.secondary)
                         
                         Text(event.title)
                             .font(.geist(.medium, size: 12))
-                            .foregroundColor(GrindColors.primary)
+                            .foregroundColor(SlateColors.primary)
                             .lineLimit(1)
                     }
                     .padding(.horizontal, 9)
                     .padding(.vertical, 5)
-                    .background(GrindColors.hair.opacity(0.35))
+                    .background(SlateColors.hair.opacity(0.35))
                     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                 }
             }
@@ -617,10 +617,10 @@ public struct TaskListCardView: View {
             Spacer()
             Image(systemName: emptyIconName)
                 .font(.system(size: 26, weight: .light))
-                .foregroundColor(GrindColors.secondary.opacity(0.45))
+                .foregroundColor(SlateColors.secondary.opacity(0.45))
             Text(emptyMessage)
                 .font(.geist(.regular, size: 13.5))
-                .foregroundColor(GrindColors.secondary)
+                .foregroundColor(SlateColors.secondary)
                 .multilineTextAlignment(.center)
             
             Button(action: { isInputFocused = true }) {
@@ -630,10 +630,10 @@ public struct TaskListCardView: View {
                     Text("Add Item")
                         .font(.geist(.medium, size: 12))
                 }
-                .foregroundColor(GrindColors.primary.opacity(0.8))
+                .foregroundColor(SlateColors.primary.opacity(0.8))
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
                 .clipShape(Capsule())
             }
             .buttonStyle(.plain)
@@ -650,7 +650,7 @@ public struct TaskListCardView: View {
         HStack(spacing: 8) {
             Image(systemName: "plus")
                 .font(.system(size: 12, weight: .semibold))
-                .foregroundColor(isInputFocused ? GrindColors.primary : GrindColors.secondary)
+                .foregroundColor(isInputFocused ? SlateColors.primary : SlateColors.secondary)
             
             TextField("Add to \(listType.title)...", text: $newTodoText)
                 .textFieldStyle(.plain)
@@ -668,10 +668,10 @@ public struct TaskListCardView: View {
                     Text(matchedDate)
                         .font(.geist(.mono, size: 10.5))
                 }
-                .foregroundColor(GrindColors.primary)
+                .foregroundColor(SlateColors.primary)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 2)
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
                 .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                 .transition(.scale.combined(with: .opacity))
             }
@@ -684,10 +684,10 @@ public struct TaskListCardView: View {
                     Text(RecurrenceService.displayString(for: rule))
                         .font(.geist(.mono, size: 10.5))
                 }
-                .foregroundColor(GrindColors.primary)
+                .foregroundColor(SlateColors.primary)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 2)
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
                 .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                 .transition(.scale.combined(with: .opacity))
             }
@@ -696,14 +696,14 @@ public struct TaskListCardView: View {
                 Button(action: commitNewTodo) {
                     Image(systemName: "arrow.up.circle.fill")
                         .font(.system(size: 18))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                 }
                 .buttonStyle(.plain)
             }
         }
         .padding(.top, 12)
         .padding(.bottom, 2)
-        .animation(GrindTheme.snapSpring, value: inlineParsed.reminderDate != nil)
+        .animation(SlateTheme.snapSpring, value: inlineParsed.reminderDate != nil)
     }
     
     @ViewBuilder
@@ -720,7 +720,7 @@ public struct TaskListCardView: View {
                 onSelectTask(task, flags)
             },
             onToggleExpand: {
-                withAnimation(GrindTheme.expandSpring) {
+                withAnimation(SlateTheme.expandSpring) {
                     onToggleExpandTask(task)
                 }
             },
@@ -732,7 +732,7 @@ public struct TaskListCardView: View {
                 DataStore.shared.reorderTask(dragged, before: task)
             },
             onSelectAllInList: {
-                withAnimation(GrindTheme.snapSpring) {
+                withAnimation(SlateTheme.snapSpring) {
                     isSelectionModeActive = true
                     onSelectAllInGroup(listType)
                 }

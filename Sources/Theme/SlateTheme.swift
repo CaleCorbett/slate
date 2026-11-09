@@ -1,7 +1,7 @@
 import SwiftUI
 import AppKit
 
-public struct GrindTheme {
+public struct SlateTheme {
     public static let cardRadius: CGFloat = 18
     public static let rowRadius: CGFloat = 11
     public static let btnRadius: CGFloat = 10
@@ -13,7 +13,7 @@ public struct GrindTheme {
     public static let expandSpring = Animation.spring(response: 0.38, dampingFraction: 0.82)
 }
 
-public typealias SlateTheme = GrindTheme
+public typealias GrindTheme = SlateTheme
 
 public enum GeistWeight {
     case regular
@@ -62,17 +62,17 @@ public struct KeycapBadge: View {
     public var body: some View {
         Text(text)
             .font(.geist(.mono, size: 10))
-            .foregroundColor(inverted ? GrindColors.primaryInverted.opacity(0.85) : GrindColors.secondary)
+            .foregroundColor(inverted ? SlateColors.primaryInverted.opacity(0.85) : SlateColors.secondary)
             .padding(.horizontal, 5)
             .padding(.vertical, 2)
             .background(
                 RoundedRectangle(cornerRadius: 4, style: .continuous)
-                    .fill(inverted ? GrindColors.primaryInverted.opacity(0.16) : GrindColors.hair)
+                    .fill(inverted ? SlateColors.primaryInverted.opacity(0.16) : SlateColors.hair)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 4, style: .continuous)
                     .strokeBorder(
-                        inverted ? GrindColors.primaryInverted.opacity(0.22) : GrindColors.cardBorder,
+                        inverted ? SlateColors.primaryInverted.opacity(0.22) : SlateColors.cardBorder,
                         lineWidth: 0.75
                     )
             )

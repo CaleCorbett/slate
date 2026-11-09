@@ -23,30 +23,30 @@ public struct StatusToggleView: View {
         Button(action: action) {
             ZStack {
                 // Subtle hover fill for incomplete state
-                RoundedRectangle(cornerRadius: GrindTheme.checkboxRadius, style: .continuous)
-                    .fill(status == .incomplete && isHovered ? GrindColors.hair : Color.clear)
-                    .frame(width: GrindTheme.checkboxSize, height: GrindTheme.checkboxSize)
+                RoundedRectangle(cornerRadius: SlateTheme.checkboxRadius, style: .continuous)
+                    .fill(status == .incomplete && isHovered ? SlateColors.hair : Color.clear)
+                    .frame(width: SlateTheme.checkboxSize, height: SlateTheme.checkboxSize)
                 
                 // Outer rounded square border
-                RoundedRectangle(cornerRadius: GrindTheme.checkboxRadius, style: .continuous)
+                RoundedRectangle(cornerRadius: SlateTheme.checkboxRadius, style: .continuous)
                     .strokeBorder(
                         status == .incomplete
-                            ? (isHovered ? GrindColors.primary.opacity(0.55) : GrindColors.primary.opacity(0.28))
-                            : GrindColors.primary,
+                            ? (isHovered ? SlateColors.primary.opacity(0.55) : SlateColors.primary.opacity(0.28))
+                            : SlateColors.primary,
                         lineWidth: 1.5
                     )
-                    .frame(width: GrindTheme.checkboxSize, height: GrindTheme.checkboxSize)
+                    .frame(width: SlateTheme.checkboxSize, height: SlateTheme.checkboxSize)
                 
                 // Continuous 0° -> 180° -> 360° conic sweep fill
                 PieSlice(sweep: sweepDegrees)
-                    .fill(GrindColors.primary)
+                    .fill(SlateColors.primary)
                     .frame(
-                        width: status == .completed ? GrindTheme.checkboxSize : 14,
-                        height: status == .completed ? GrindTheme.checkboxSize : 14
+                        width: status == .completed ? SlateTheme.checkboxSize : 14,
+                        height: status == .completed ? SlateTheme.checkboxSize : 14
                     )
                     .clipShape(
                         RoundedRectangle(
-                            cornerRadius: status == .completed ? GrindTheme.checkboxRadius : 4.5,
+                            cornerRadius: status == .completed ? SlateTheme.checkboxRadius : 4.5,
                             style: .continuous
                         )
                     )
@@ -56,7 +56,7 @@ public struct StatusToggleView: View {
                 CheckmarkShape()
                     .trim(from: 0, to: status == .completed ? 1.0 : 0.0)
                     .stroke(
-                        GrindColors.primaryInverted,
+                        SlateColors.primaryInverted,
                         style: StrokeStyle(lineWidth: 2.0, lineCap: .round, lineJoin: .round)
                     )
                     .frame(width: 10, height: 8)
@@ -67,11 +67,11 @@ public struct StatusToggleView: View {
         }
         .buttonStyle(TactileCheckboxButtonStyle())
         .onHover { hovering in
-            withAnimation(GrindTheme.snapSpring) {
+            withAnimation(SlateTheme.snapSpring) {
                 isHovered = hovering
             }
         }
-        .animation(GrindTheme.snapSpring, value: status)
+        .animation(SlateTheme.snapSpring, value: status)
     }
 }
 
@@ -79,7 +79,7 @@ private struct TactileCheckboxButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed ? 0.86 : 1.0)
-            .animation(GrindTheme.snapSpring, value: configuration.isPressed)
+            .animation(SlateTheme.snapSpring, value: configuration.isPressed)
     }
 }
 

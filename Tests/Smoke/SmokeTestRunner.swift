@@ -30,7 +30,7 @@ struct SmokeTestRunner {
     @MainActor
     static func main() async {
         print("====================================================")
-        print("🧪 GRIND AUTOMATED SMOKE TEST SUITE")
+        print("🧪 SLATE AUTOMATED SMOKE TEST SUITE")
         print("====================================================")
 
         // Disable audio playback during automated tests
@@ -381,11 +381,11 @@ struct SmokeTestRunner {
             appName: "Safari",
             bundleID: "com.apple.Safari",
             title: "GitHub Repository",
-            urlString: "https://github.com/CaleCorbett/grind"
+            urlString: "https://github.com/CaleCorbett/slate"
         )
         FrontmostAppCaptureService.shared.lastCapturedContext = sampleContext
         check(FrontmostAppCaptureService.shared.lastCapturedContext?.appName == "Safari", "FrontmostAppCaptureService holds captured context")
-        check(FrontmostAppCaptureService.shared.lastCapturedContext?.urlString == "https://github.com/CaleCorbett/grind", "Captured context retains URL")
+        check(FrontmostAppCaptureService.shared.lastCapturedContext?.urlString == "https://github.com/CaleCorbett/slate", "Captured context retains URL")
 
         // ServicesProvider processing test
         let beforeTodayServicesCount = store.todayTasks.count
@@ -412,9 +412,9 @@ struct SmokeTestRunner {
         if let t = matchingTask { store.deleteTask(t) }
 
         // macOS Focus Filter test
-        let focusFilterIntent = GrindFocusFilterIntent(focusedListName: "today", hideSomeday: true)
+        let focusFilterIntent = SlateFocusFilterIntent(focusedListName: "today", hideSomeday: true)
         _ = try? await focusFilterIntent.perform()
-        check(FocusFilterService.shared.isFocusFilterActive, "GrindFocusFilterIntent activates focus filter")
+        check(FocusFilterService.shared.isFocusFilterActive, "SlateFocusFilterIntent activates focus filter")
         check(FocusFilterService.shared.activeFilterListName == "today", "activeFilterListName is 'today'")
         check(FocusFilterService.shared.hideSomedayActive, "hideSomedayActive is true")
 

@@ -24,7 +24,7 @@ public struct TaskEditorSheet: View {
             HStack {
                 Text("Edit To-Do")
                     .font(.geist(.bold, size: 16))
-                    .foregroundColor(GrindColors.primary)
+                    .foregroundColor(SlateColors.primary)
                 Spacer()
                 Button("Done") {
                     saveChanges()
@@ -33,14 +33,14 @@ public struct TaskEditorSheet: View {
                 .font(.geist(.semiBold, size: 14))
                 .keyboardShortcut(.defaultAction)
                 .buttonStyle(.borderedProminent)
-                .tint(GrindColors.primary)
+                .tint(SlateColors.primary)
             }
             .padding(.horizontal, 20)
             .padding(.top, 18)
             .padding(.bottom, 12)
             
             Divider()
-                .background(GrindColors.hair)
+                .background(SlateColors.hair)
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
@@ -48,14 +48,14 @@ public struct TaskEditorSheet: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("TITLE")
                             .font(.geist(.medium, size: 11))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                             .tracking(0.5)
                         
                         TextField("Task title", text: $title)
                             .font(.geist(.medium, size: 16))
                             .textFieldStyle(.plain)
                             .padding(10)
-                            .background(GrindColors.hair.opacity(0.4))
+                            .background(SlateColors.hair.opacity(0.4))
                             .cornerRadius(8)
                     }
                     
@@ -63,7 +63,7 @@ public struct TaskEditorSheet: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("LIST")
                             .font(.geist(.medium, size: 11))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                             .tracking(0.5)
                         
                         Picker("List", selection: $selectedList) {
@@ -78,7 +78,7 @@ public struct TaskEditorSheet: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("STATUS")
                             .font(.geist(.medium, size: 11))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                             .tracking(0.5)
                         
                         Picker("Status", selection: $selectedStatus) {
@@ -96,7 +96,7 @@ public struct TaskEditorSheet: View {
                         Toggle(isOn: $hasReminder) {
                             Text("Reminder")
                                 .font(.geist(.medium, size: 14))
-                                .foregroundColor(GrindColors.primary)
+                                .foregroundColor(SlateColors.primary)
                         }
                         .toggleStyle(.switch)
                         
@@ -108,19 +108,19 @@ public struct TaskEditorSheet: View {
                             )
                             .datePickerStyle(.compact)
                             .padding(8)
-                            .background(GrindColors.hair.opacity(0.3))
+                            .background(SlateColors.hair.opacity(0.3))
                             .cornerRadius(8)
                         }
                     }
                     .padding(12)
-                    .background(GrindColors.hair.opacity(0.2))
+                    .background(SlateColors.hair.opacity(0.2))
                     .cornerRadius(10)
                     
                     // Recurrence
                     VStack(alignment: .leading, spacing: 6) {
                         Text("REPEAT")
                             .font(.geist(.medium, size: 11))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                             .tracking(0.5)
                         
                         Picker("Repeat", selection: $selectedRecurrence) {
@@ -138,14 +138,14 @@ public struct TaskEditorSheet: View {
                         HStack {
                             Text("CHECKLIST")
                                 .font(.geist(.medium, size: 11))
-                                .foregroundColor(GrindColors.secondary)
+                                .foregroundColor(SlateColors.secondary)
                                 .tracking(0.5)
                             Spacer()
                             if !checklistItems.isEmpty {
                                 let done = checklistItems.filter(\.isCompleted).count
                                 Text("\(done)/\(checklistItems.count)")
                                     .font(.geist(.mono, size: 11))
-                                    .foregroundColor(GrindColors.secondary)
+                                    .foregroundColor(SlateColors.secondary)
                             }
                         }
                         
@@ -156,7 +156,7 @@ public struct TaskEditorSheet: View {
                                 } label: {
                                     Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
                                         .font(.system(size: 13))
-                                        .foregroundColor(item.isCompleted ? .green : GrindColors.secondary)
+                                        .foregroundColor(item.isCompleted ? .green : SlateColors.secondary)
                                 }
                                 .buttonStyle(.plain)
                                 
@@ -170,7 +170,7 @@ public struct TaskEditorSheet: View {
                                 } label: {
                                     Image(systemName: "xmark")
                                         .font(.system(size: 10))
-                                        .foregroundColor(GrindColors.secondary.opacity(0.6))
+                                        .foregroundColor(SlateColors.secondary.opacity(0.6))
                                 }
                                 .buttonStyle(.plain)
                             }
@@ -180,7 +180,7 @@ public struct TaskEditorSheet: View {
                         HStack(spacing: 8) {
                             Image(systemName: "plus")
                                 .font(.system(size: 11))
-                                .foregroundColor(GrindColors.secondary)
+                                .foregroundColor(SlateColors.secondary)
                             TextField("Add sub-task...", text: $newChecklistTitle)
                                 .font(.geist(.regular, size: 13))
                                 .textFieldStyle(.plain)
@@ -195,21 +195,21 @@ public struct TaskEditorSheet: View {
                         .padding(.top, 4)
                     }
                     .padding(10)
-                    .background(GrindColors.hair.opacity(0.3))
+                    .background(SlateColors.hair.opacity(0.3))
                     .cornerRadius(8)
                     
                     // Notes Editor
                     VStack(alignment: .leading, spacing: 6) {
                         Text("NOTES & LINKS")
                             .font(.geist(.medium, size: 11))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                             .tracking(0.5)
                         
                         TextEditor(text: $notes)
                             .font(.geist(.regular, size: 14))
                             .frame(minHeight: 100)
                             .padding(6)
-                            .background(GrindColors.hair.opacity(0.3))
+                            .background(SlateColors.hair.opacity(0.3))
                             .cornerRadius(8)
                     }
                     
@@ -232,7 +232,7 @@ public struct TaskEditorSheet: View {
             }
         }
         .frame(width: 440, height: 520)
-        .background(GrindColors.bg)
+        .background(SlateColors.bg)
         .onAppear {
             title = task.title
             notes = task.notes ?? ""

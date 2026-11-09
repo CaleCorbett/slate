@@ -30,10 +30,10 @@ public struct QuickAddPanel: View {
                 HStack(spacing: 7) {
                     Image(systemName: "bolt.horizontal.circle.fill")
                         .font(.system(size: 15))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                     Text("Quick-Add")
                         .font(.geist(.bold, size: 14))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                     
                     KeycapBadge("^⌥Space")
                 }
@@ -43,9 +43,9 @@ public struct QuickAddPanel: View {
                         KeycapBadge("Esc")
                         Image(systemName: "xmark")
                             .font(.system(size: 10, weight: .bold))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                             .padding(5)
-                            .background(GrindColors.hair)
+                            .background(SlateColors.hair)
                             .clipShape(Circle())
                     }
                 }
@@ -60,11 +60,11 @@ public struct QuickAddPanel: View {
                     .textFieldStyle(.plain)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 12)
-                    .background(GrindColors.cardBackground(for: effectiveList))
+                    .background(SlateColors.cardBackground(for: effectiveList))
                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                     .overlay(
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .stroke(GrindColors.primary.opacity(0.18), lineWidth: 1)
+                            .stroke(SlateColors.primary.opacity(0.18), lineWidth: 1)
                     )
                     .focused($isFieldFocused)
                     .onKeyPress(.tab) {
@@ -81,11 +81,11 @@ public struct QuickAddPanel: View {
                     HStack(spacing: 6) {
                         Image(systemName: "sparkles")
                             .font(.system(size: 10, weight: .semibold))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                         
                         Text(parsed.cleanTitle)
                             .font(.geist(.medium, size: 12))
-                            .foregroundColor(GrindColors.primary)
+                            .foregroundColor(SlateColors.primary)
                             .lineLimit(1)
                         
                         if let matchedToken = parsed.matchedDateString {
@@ -95,10 +95,10 @@ public struct QuickAddPanel: View {
                                 Text(matchedToken)
                                     .font(.geist(.mono, size: 10.5))
                             }
-                            .foregroundColor(GrindColors.primaryInverted)
+                            .foregroundColor(SlateColors.primaryInverted)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
-                            .background(GrindColors.primary)
+                            .background(SlateColors.primary)
                             .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                         }
                         
@@ -116,10 +116,10 @@ public struct QuickAddPanel: View {
                             .foregroundColor(.blue)
                         Text("From \(captured.appName):")
                             .font(.geist(.medium, size: 11))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                         Text(captured.title)
                             .font(.geist(.regular, size: 11))
-                            .foregroundColor(GrindColors.primary)
+                            .foregroundColor(SlateColors.primary)
                             .lineLimit(1)
                         
                         Spacer(minLength: 4)
@@ -131,10 +131,10 @@ public struct QuickAddPanel: View {
                                 Text(isLinkAttached ? "Attached" : "Attach (⌘D)")
                                     .font(.geist(.medium, size: 10.5))
                             }
-                            .foregroundColor(isLinkAttached ? .green : GrindColors.primary)
+                            .foregroundColor(isLinkAttached ? .green : SlateColors.primary)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2.5)
-                            .background(GrindColors.hair)
+                            .background(SlateColors.hair)
                             .cornerRadius(4)
                         }
                         .buttonStyle(.plain)
@@ -143,25 +143,25 @@ public struct QuickAddPanel: View {
                     }
                     .padding(.horizontal, 10)
                     .padding(.vertical, 5)
-                    .background(GrindColors.hair.opacity(0.35))
+                    .background(SlateColors.hair.opacity(0.35))
                     .cornerRadius(6)
                     .transition(.opacity.combined(with: .move(edge: .top)))
                 }
             }
-            .animation(GrindTheme.snapSpring, value: parsed.matchedDateString)
+            .animation(SlateTheme.snapSpring, value: parsed.matchedDateString)
             
             // Intelligence / Parsed Chips & Keyboard List Selector (⌘1, ⌘2, ⌘3)
             HStack(spacing: 8) {
                 ForEach(TaskListType.allCases) { list in
                     let isSelected = (list == effectiveList)
                     Button(action: {
-                        withAnimation(GrindTheme.snapSpring) {
+                        withAnimation(SlateTheme.snapSpring) {
                             manualListOverride = list
                         }
                     }) {
                         HStack(spacing: 6) {
                             Circle()
-                                .fill(isSelected ? GrindColors.primary : GrindColors.secondary.opacity(0.35))
+                                .fill(isSelected ? SlateColors.primary : SlateColors.secondary.opacity(0.35))
                                 .frame(width: 6, height: 6)
                             Text(list.title)
                                 .font(.geist(.semiBold, size: 12))
@@ -170,12 +170,12 @@ public struct QuickAddPanel: View {
                         .padding(.leading, 10)
                         .padding(.trailing, 6)
                         .padding(.vertical, 5)
-                        .background(isSelected ? GrindColors.hair : Color.clear)
-                        .foregroundColor(isSelected ? GrindColors.primary : GrindColors.secondary)
+                        .background(isSelected ? SlateColors.hair : Color.clear)
+                        .foregroundColor(isSelected ? SlateColors.primary : SlateColors.secondary)
                         .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
                         .overlay(
                             RoundedRectangle(cornerRadius: 7, style: .continuous)
-                                .stroke(isSelected ? GrindColors.primary.opacity(0.35) : GrindColors.cardBorder, lineWidth: 1)
+                                .stroke(isSelected ? SlateColors.primary.opacity(0.35) : SlateColors.cardBorder, lineWidth: 1)
                         )
                     }
                     .buttonStyle(.plain)
@@ -192,10 +192,10 @@ public struct QuickAddPanel: View {
                         Text(formatReminder(reminder))
                             .font(.geist(.mono, size: 11))
                     }
-                    .foregroundColor(GrindColors.primary)
+                    .foregroundColor(SlateColors.primary)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 5)
-                    .background(GrindColors.hair)
+                    .background(SlateColors.hair)
                     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                     .transition(.scale.combined(with: .opacity))
                 }
@@ -208,10 +208,10 @@ public struct QuickAddPanel: View {
                         Text(RecurrenceService.displayString(for: rule))
                             .font(.geist(.mono, size: 11))
                     }
-                    .foregroundColor(GrindColors.primary)
+                    .foregroundColor(SlateColors.primary)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 5)
-                    .background(GrindColors.hair)
+                    .background(SlateColors.hair)
                     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                     .transition(.scale.combined(with: .opacity))
                 }
@@ -223,15 +223,15 @@ public struct QuickAddPanel: View {
                     KeycapBadge("↵")
                     Text("Save")
                         .font(.geist(.regular, size: 11))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                     
                     Text("·")
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                     
                     KeycapBadge("⌘1–3 / ⇥")
                     Text("Switch List")
                         .font(.geist(.regular, size: 11))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                 }
                 
                 Spacer()
@@ -247,10 +247,10 @@ public struct QuickAddPanel: View {
                     .background(
                         RoundedRectangle(cornerRadius: 8, style: .continuous)
                             .fill(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                                  ? GrindColors.primary.opacity(0.35)
-                                  : GrindColors.primary)
+                                  ? SlateColors.primary.opacity(0.35)
+                                  : SlateColors.primary)
                     )
-                    .foregroundColor(GrindColors.primaryInverted)
+                    .foregroundColor(SlateColors.primaryInverted)
                 }
                 .buttonStyle(.plain)
                 .disabled(inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -259,12 +259,12 @@ public struct QuickAddPanel: View {
         .padding(18)
         .frame(width: 530)
         .background(
-            RoundedRectangle(cornerRadius: GrindTheme.cardRadius, style: .continuous)
-                .fill(GrindColors.bg)
+            RoundedRectangle(cornerRadius: SlateTheme.cardRadius, style: .continuous)
+                .fill(SlateColors.bg)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: GrindTheme.cardRadius, style: .continuous)
-                .stroke(GrindColors.cardBorder, lineWidth: 1)
+            RoundedRectangle(cornerRadius: SlateTheme.cardRadius, style: .continuous)
+                .stroke(SlateColors.cardBorder, lineWidth: 1)
         )
         .shadow(color: Color.black.opacity(0.26), radius: 28, x: 0, y: 14)
         .onAppear {
@@ -277,7 +277,7 @@ public struct QuickAddPanel: View {
     
     private func toggleAttachContext() {
         guard let captured = capturedContext else { return }
-        withAnimation(GrindTheme.easeSpring) {
+        withAnimation(SlateTheme.easeSpring) {
             if inputText.isEmpty {
                 inputText = captured.title
             }
@@ -294,7 +294,7 @@ public struct QuickAddPanel: View {
         let all = TaskListType.allCases
         guard let idx = all.firstIndex(of: effectiveList) else { return }
         let next = all[(idx + 1) % all.count]
-        withAnimation(GrindTheme.snapSpring) {
+        withAnimation(SlateTheme.snapSpring) {
             manualListOverride = next
         }
     }

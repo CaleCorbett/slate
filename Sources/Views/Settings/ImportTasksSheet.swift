@@ -20,10 +20,10 @@ public struct ImportTasksSheet: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Import To-Dos")
                         .font(.geist(.bold, size: 16))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                     Text("Bring your tasks from Apple Reminders, Things 3, or plain text.")
                         .font(.geist(.regular, size: 12))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                 }
                 Spacer()
                 Button {
@@ -31,7 +31,7 @@ public struct ImportTasksSheet: View {
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .font(.system(size: 18))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                 }
                 .buttonStyle(.plain)
             }
@@ -81,7 +81,7 @@ public struct ImportTasksSheet: View {
             HStack {
                 Toggle("Skip duplicate to-dos", isOn: $skipDuplicates)
                     .font(.caption)
-                    .foregroundColor(GrindColors.secondary)
+                    .foregroundColor(SlateColors.secondary)
                 
                 Spacer()
                 
@@ -101,7 +101,7 @@ public struct ImportTasksSheet: View {
             .padding(.vertical, 14)
         }
         .frame(width: 540, height: 480)
-        .background(GrindColors.cardToday)
+        .background(SlateColors.cardToday)
     }
     
     // MARK: - Apple Reminders Tab
@@ -112,15 +112,15 @@ public struct ImportTasksSheet: View {
                     Spacer()
                     Image(systemName: "checklist")
                         .font(.system(size: 40))
-                        .foregroundColor(GrindColors.secondary.opacity(0.6))
+                        .foregroundColor(SlateColors.secondary.opacity(0.6))
                     
                     Text("Import from Apple Reminders")
                         .font(.geist(.medium, size: 14))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                     
                     Text("Slate will scan your Apple Reminders lists for incomplete tasks and map their due dates to Today or Next.")
                         .font(.geist(.regular, size: 12))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 40)
                     
@@ -160,7 +160,7 @@ public struct ImportTasksSheet: View {
                 if !importedItems.isEmpty {
                     Text("\(importedItems.count) to-dos detected")
                         .font(.caption)
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                 }
             }
             
@@ -169,13 +169,13 @@ public struct ImportTasksSheet: View {
                     Spacer()
                     Image(systemName: "doc.text")
                         .font(.system(size: 36))
-                        .foregroundColor(GrindColors.secondary.opacity(0.5))
+                        .foregroundColor(SlateColors.secondary.opacity(0.5))
                     Text("Import Things 3 or Generic JSON")
                         .font(.geist(.medium, size: 13))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                     Text("Select a JSON export from Things 3 or any JSON array of tasks with 'title', 'when', or 'notes' fields.")
                         .font(.caption)
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 30)
                     Spacer()
@@ -192,12 +192,12 @@ public struct ImportTasksSheet: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Paste bullet points, markdown tasks (- [ ] Task), or one task per line:")
                 .font(.caption)
-                .foregroundColor(GrindColors.secondary)
+                .foregroundColor(SlateColors.secondary)
             
             TextEditor(text: $plainTextInput)
                 .font(.geist(.regular, size: 13))
                 .padding(8)
-                .background(GrindColors.hair.opacity(0.2))
+                .background(SlateColors.hair.opacity(0.2))
                 .cornerRadius(8)
                 .onChange(of: plainTextInput) { _, newValue in
                     importedItems = RemindersImporterService.shared.parsePlainTextTasks(newValue)
@@ -221,14 +221,14 @@ public struct ImportTasksSheet: View {
             HStack {
                 Text("Found \(importedItems.count) To-Dos")
                     .font(.geist(.medium, size: 13))
-                    .foregroundColor(GrindColors.primary)
+                    .foregroundColor(SlateColors.primary)
                 Spacer()
                 Button("Clear") {
                     importedItems = []
                 }
                 .font(.caption)
                 .buttonStyle(.plain)
-                .foregroundColor(GrindColors.secondary)
+                .foregroundColor(SlateColors.secondary)
             }
             
             ScrollView {
@@ -236,18 +236,18 @@ public struct ImportTasksSheet: View {
                     ForEach(importedItems, id: \.id) { item in
                         HStack(spacing: 10) {
                             Circle()
-                                .strokeBorder(GrindColors.secondary.opacity(0.4), lineWidth: 1.5)
+                                .strokeBorder(SlateColors.secondary.opacity(0.4), lineWidth: 1.5)
                                 .frame(width: 14, height: 14)
                             
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(item.title)
                                     .font(.geist(.regular, size: 13))
-                                    .foregroundColor(GrindColors.primary)
+                                    .foregroundColor(SlateColors.primary)
                                     .lineLimit(1)
                                 if let notes = item.notes, !notes.isEmpty {
                                     Text(notes)
                                         .font(.caption2)
-                                        .foregroundColor(GrindColors.secondary)
+                                        .foregroundColor(SlateColors.secondary)
                                         .lineLimit(1)
                                 }
                             }
@@ -259,13 +259,13 @@ public struct ImportTasksSheet: View {
                                 .font(.geist(.mono, size: 10))
                                 .padding(.horizontal, 6)
                                 .padding(.vertical, 2)
-                                .background(item.targetList == .today ? Color.orange.opacity(0.2) : GrindColors.hair)
-                                .foregroundColor(item.targetList == .today ? .orange : GrindColors.secondary)
+                                .background(item.targetList == .today ? Color.orange.opacity(0.2) : SlateColors.hair)
+                                .foregroundColor(item.targetList == .today ? .orange : SlateColors.secondary)
                                 .cornerRadius(4)
                         }
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
-                        .background(GrindColors.hair.opacity(0.25))
+                        .background(SlateColors.hair.opacity(0.25))
                         .cornerRadius(6)
                     }
                 }

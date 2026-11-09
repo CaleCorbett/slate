@@ -112,8 +112,6 @@ public struct SlateFocusFilterIntent: SetFocusFilterIntent {
     }
 }
 
-public typealias GrindFocusFilterIntent = SlateFocusFilterIntent
-
 public struct SlateShortcutsProvider: AppShortcutsProvider {
     public static var appShortcuts: [AppShortcut] {
         AppShortcut(
@@ -136,6 +134,4 @@ public struct SlateShortcutsProvider: AppShortcutsProvider {
         )
     }
 }
-
-public typealias GrindShortcutsProvider = SlateShortcutsProvider
 

@@ -48,7 +48,7 @@ public struct MainView: View {
     public var body: some View {
         ZStack {
             // Background
-            GrindColors.bg
+            SlateColors.bg
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
@@ -143,7 +143,7 @@ public struct MainView: View {
                                     },
                                     onClearCompleted: { store.clearCompleted(in: $0) },
                                     onToggleFocusCard: { target in
-                                        withAnimation(GrindTheme.easeSpring) {
+                                        withAnimation(SlateTheme.easeSpring) {
                                             focusedList = (focusedList == target) ? nil : target
                                             activeList = target
                                         }
@@ -195,7 +195,7 @@ public struct MainView: View {
                 CommandPaletteView(
                     isPresented: $isShowingCommandPalette,
                     onSelectTask: { task in
-                        withAnimation(GrindTheme.easeSpring) {
+                        withAnimation(SlateTheme.easeSpring) {
                             focusedList = task.list
                             activeList = task.list
                             selectedTaskIDs = [task.id]
@@ -216,9 +216,9 @@ public struct MainView: View {
                 ToastView()
             }
         }
-        .animation(GrindTheme.easeSpring, value: isShowingQuickAdd)
-        .animation(GrindTheme.easeSpring, value: isShowingCommandPalette)
-        .animation(GrindTheme.easeSpring, value: focusedList)
+        .animation(SlateTheme.easeSpring, value: isShowingQuickAdd)
+        .animation(SlateTheme.easeSpring, value: isShowingCommandPalette)
+        .animation(SlateTheme.easeSpring, value: focusedList)
         .sheet(item: $editingTask) { task in
             TaskEditorSheet(task: task)
         }
@@ -240,7 +240,7 @@ public struct MainView: View {
         .preferredColorScheme(settings.preferredColorScheme)
         .onReceive(hotKey.$shouldOpenQuickAdd) { shouldOpen in
             if shouldOpen {
-                withAnimation(GrindTheme.easeSpring) {
+                withAnimation(SlateTheme.easeSpring) {
                     isShowingQuickAdd = true
                 }
                 hotKey.shouldOpenQuickAdd = false
@@ -248,7 +248,7 @@ public struct MainView: View {
         }
         .onReceive(toastManager.$requestedFocusList) { requested in
             if let target = requested {
-                withAnimation(GrindTheme.easeSpring) {
+                withAnimation(SlateTheme.easeSpring) {
                     focusedList = target
                     activeList = target
                 }
@@ -279,19 +279,19 @@ public struct MainView: View {
                     .keyboardShortcut("c", modifiers: [.command, .shift])
                 
                 Button("") {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         isShowingCommandPalette.toggle()
                     }
                 }
                 .keyboardShortcut("k", modifiers: .command)
                 
                 Button("") {
-                    withAnimation(GrindTheme.easeSpring) { focusedList = nil }
+                    withAnimation(SlateTheme.easeSpring) { focusedList = nil }
                 }
                 .keyboardShortcut("0", modifiers: .command)
                 
                 Button("") {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         focusedList = (focusedList == .today) ? nil : .today
                         activeList = .today
                     }
@@ -299,7 +299,7 @@ public struct MainView: View {
                 .keyboardShortcut("1", modifiers: .command)
                 
                 Button("") {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         focusedList = (focusedList == .next) ? nil : .next
                         activeList = .next
                     }
@@ -307,7 +307,7 @@ public struct MainView: View {
                 .keyboardShortcut("2", modifiers: .command)
                 
                 Button("") {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         focusedList = (focusedList == .someday) ? nil : .someday
                         activeList = .someday
                     }
@@ -374,7 +374,7 @@ public struct MainView: View {
         let groupTasks = store.tasks(for: targetGroup)
         guard !groupTasks.isEmpty else { return }
         let allSelected = groupTasks.allSatisfy { selectedTaskIDs.contains($0.id) }
-        withAnimation(GrindTheme.snapSpring) {
+        withAnimation(SlateTheme.snapSpring) {
             if allSelected {
                 deselectAll(in: targetGroup)
             } else {
@@ -415,21 +415,21 @@ public struct MainView: View {
                 } else {
                     ZStack {
                         RoundedRectangle(cornerRadius: 8, style: .continuous)
-                            .fill(GrindColors.primary)
+                            .fill(SlateColors.primary)
                             .frame(width: 28, height: 28)
                         Text("S")
                             .font(.geist(.bold, size: 16))
-                            .foregroundColor(GrindColors.primaryInverted)
+                            .foregroundColor(SlateColors.primaryInverted)
                     }
                 }
                 
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Slate")
                         .font(.geist(.bold, size: 18))
-                        .foregroundColor(GrindColors.primary)
+                        .foregroundColor(SlateColors.primary)
                     Text("Clean slate. Quiet focus.")
                         .font(.geist(.regular, size: 11))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                 }
             }
             
@@ -440,7 +440,7 @@ public struct MainView: View {
                     Text("Focus: \(focusFilter.activeFilterListName?.capitalized ?? "Filtered")")
                         .font(.geist(.mono, size: 10.5))
                     Button {
-                        withAnimation(GrindTheme.easeSpring) {
+                        withAnimation(SlateTheme.easeSpring) {
                             focusFilter.clearFocusFilter()
                         }
                     } label: {
@@ -463,15 +463,15 @@ public struct MainView: View {
             HStack(spacing: 8) {
                 // Command Palette Button
                 Button(action: {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         isShowingCommandPalette.toggle()
                     }
                 }) {
                     Image(systemName: "magnifyingglass")
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .frame(width: 32, height: 32)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .clipShape(Circle())
                 }
                 .buttonStyle(.plain)
@@ -489,9 +489,9 @@ public struct MainView: View {
                     .padding(.leading, 12)
                     .padding(.trailing, 8)
                     .padding(.vertical, 6)
-                    .background(GrindColors.primary)
-                    .foregroundColor(GrindColors.primaryInverted)
-                    .clipShape(RoundedRectangle(cornerRadius: GrindTheme.btnRadius, style: .continuous))
+                    .background(SlateColors.primary)
+                    .foregroundColor(SlateColors.primaryInverted)
+                    .clipShape(RoundedRectangle(cornerRadius: SlateTheme.btnRadius, style: .continuous))
                     .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
                 }
                 .buttonStyle(.plain)
@@ -500,9 +500,9 @@ public struct MainView: View {
                 Button(action: { isShowingArchive = true }) {
                     Image(systemName: "archivebox")
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .frame(width: 32, height: 32)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .clipShape(Circle())
                 }
                 .buttonStyle(.plain)
@@ -512,9 +512,9 @@ public struct MainView: View {
                 Button(action: { isShowingSettings = true }) {
                     Image(systemName: "gearshape")
                         .font(.system(size: 13, weight: .medium))
-                        .foregroundColor(GrindColors.secondary)
+                        .foregroundColor(SlateColors.secondary)
                         .frame(width: 32, height: 32)
-                        .background(GrindColors.hair)
+                        .background(SlateColors.hair)
                         .clipShape(Circle())
                 }
                 .buttonStyle(.plain)
@@ -537,7 +537,7 @@ public struct MainView: View {
             Spacer()
             if !selectedTaskIDs.isEmpty {
                 Button(action: {
-                    withAnimation(GrindTheme.snapSpring) {
+                    withAnimation(SlateTheme.snapSpring) {
                         selectedTaskIDs.removeAll()
                         lastSelectedTaskID = nil
                         expandedTaskID = nil
@@ -547,7 +547,7 @@ public struct MainView: View {
                         KeycapBadge("Esc")
                         Text("Clear (\(selectedTaskIDs.count))")
                             .font(.geist(.mono, size: 11))
-                            .foregroundColor(GrindColors.secondary)
+                            .foregroundColor(SlateColors.secondary)
                     }
                 }
                 .buttonStyle(.plain)
@@ -561,7 +561,7 @@ public struct MainView: View {
             KeycapBadge(key)
             Text(label)
                 .font(.geist(.regular, size: 11))
-                .foregroundColor(GrindColors.secondary)
+                .foregroundColor(SlateColors.secondary)
         }
     }
     
@@ -580,7 +580,7 @@ public struct MainView: View {
                 // Allow Escape to exit inline expansion or unfocus text field
                 if event.keyCode == 53 { // Escape
                     if expandedTaskID != nil {
-                        withAnimation(GrindTheme.expandSpring) {
+                        withAnimation(SlateTheme.expandSpring) {
                             expandedTaskID = nil
                         }
                         event.window?.makeFirstResponder(nil)
@@ -676,14 +676,14 @@ public struct MainView: View {
                 }
             case 36: // Return -> Toggle inline expand on primary selected task
                 if let id = lastSelectedTaskID ?? selectedTaskIDs.first {
-                    withAnimation(GrindTheme.expandSpring) {
+                    withAnimation(SlateTheme.expandSpring) {
                         expandedTaskID = (expandedTaskID == id) ? nil : id
                     }
                     return nil
                 }
             case 53: // Escape -> Clear expansion or selection
                 if expandedTaskID != nil {
-                    withAnimation(GrindTheme.expandSpring) {
+                    withAnimation(SlateTheme.expandSpring) {
                         expandedTaskID = nil
                     }
                     return nil
@@ -692,7 +692,7 @@ public struct MainView: View {
                     lastSelectedTaskID = nil
                     return nil
                 } else if focusedList != nil {
-                    withAnimation(GrindTheme.easeSpring) {
+                    withAnimation(SlateTheme.easeSpring) {
                         focusedList = nil
                     }
                     return nil
@@ -785,7 +785,7 @@ public struct MainView: View {
     private func handlePaletteAction(_ actionId: String) {
         switch actionId {
         case "new_task":
-            withAnimation(GrindTheme.easeSpring) { isShowingQuickAdd = true }
+            withAnimation(SlateTheme.easeSpring) { isShowingQuickAdd = true }
         case "start_focus":
             let targetTask = selectedTasks.first ?? store.todayTasks.first(where: { $0.status == .inProgress }) ?? store.todayTasks.first
             if let task = targetTask {
@@ -796,13 +796,13 @@ public struct MainView: View {
         case "stop_focus":
             FocusTimerService.shared.stopTimer(logElapsed: true)
         case "focus_today":
-            withAnimation(GrindTheme.easeSpring) { focusedList = .today; activeList = .today }
+            withAnimation(SlateTheme.easeSpring) { focusedList = .today; activeList = .today }
         case "focus_next":
-            withAnimation(GrindTheme.easeSpring) { focusedList = .next; activeList = .next }
+            withAnimation(SlateTheme.easeSpring) { focusedList = .next; activeList = .next }
         case "focus_someday":
-            withAnimation(GrindTheme.easeSpring) { focusedList = .someday; activeList = .someday }
+            withAnimation(SlateTheme.easeSpring) { focusedList = .someday; activeList = .someday }
         case "view_all":
-            withAnimation(GrindTheme.easeSpring) { focusedList = nil }
+            withAnimation(SlateTheme.easeSpring) { focusedList = nil }
         case "fresh_start":
             isShowingFreshStart = true
         case "stale_review":
