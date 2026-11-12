@@ -13,24 +13,9 @@ public struct SettingsView: View {
                     Label("General", systemImage: "gearshape")
                 }
             
-            soundsTab
-                .tabItem {
-                    Label("Sounds", systemImage: "speaker.wave.2")
-                }
-            
             quickAddTab
                 .tabItem {
                     Label("Quick-Add", systemImage: "plus.circle")
-                }
-            
-            menuBarTab
-                .tabItem {
-                    Label("Menu Bar", systemImage: "menubar.rectangle")
-                }
-            
-            importTab
-                .tabItem {
-                    Label("Data", systemImage: "externaldrive")
                 }
             
             aiTab
@@ -38,12 +23,17 @@ public struct SettingsView: View {
                     Label("AI & Agents", systemImage: "sparkles")
                 }
             
+            importTab
+                .tabItem {
+                    Label("Data", systemImage: "externaldrive")
+                }
+            
             aboutTab
                 .tabItem {
                     Label("About", systemImage: "info.circle")
                 }
         }
-        .frame(width: 630, height: 510)
+        .frame(width: 650, height: 530)
         .padding(12)
     }
     
@@ -55,24 +45,75 @@ public struct SettingsView: View {
     // MARK: - General Tab
     private var generalTab: some View {
         Form {
+            Section("Appearance") {
+                Picker("Theme", selection: $settings.appearanceMode) {
+                    Text("System").tag("system")
+                    Text("Light").tag("light")
+                    Text("Dark").tag("dark")
+                }
+                .pickerStyle(.segmented)
+                
+                Picker("App Icon", selection: $settings.selectedAppIcon) {
+                    Text("Slate Dark (Default)").tag("Slate Dark")
+                    Text("Slate Light").tag("Slate Light")
+                    Text("Slate Minimal").tag("Slate Minimal")
+                }
+            }
+            
+            Section("Sound Feedback") {
+                Toggle("Play Sound Effects", isOn: $settings.soundEffectsEnabled)
+                Text("Tactile sound effects on task completion, progress, and deletion. Shortcut: ⇧⌘M.")
+                    .font(.caption)
+                    .foregroundColor(SlateColors.secondary)
+                
+                HStack(spacing: 12) {
+                    Text("Preview:")
+                        .font(.caption)
+                        .foregroundColor(SlateColors.secondary)
+                    Button("Done") {
+                        SoundManager.shared.play(.completed)
+                    }
+                    Button("Progress") {
+                        SoundManager.shared.play(.inProgress)
+                    }
+                    Button("Deleted") {
+                        SoundManager.shared.play(.deleted)
+                    }
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+            }
+            
+            Section("Menu Bar Extra") {
+                Toggle("Show Slate in Menu Bar", isOn: $settings.showInMenuBar)
+                Text("Keep Today's to-dos accessible right from your Mac's menu bar.")
+                    .font(.caption)
+                    .foregroundColor(SlateColors.secondary)
+                
+                Picker("Menu Bar Icon Shows", selection: $settings.menuBarBadge) {
+                    Text("Remaining to-dos today").tag("remaining")
+                    Text("Total to-dos today").tag("total")
+                    Text("Icon only (No count)").tag("none")
+                }
+                .pickerStyle(.radioGroup)
+            }
+            
             Section("Startup & System") {
                 Toggle("Launch Slate at Login", isOn: Binding(
                     get: { settings.launchAtLogin },
                     set: { settings.launchAtLogin = $0 }
                 ))
-                Text("Start Slate automatically in your menu bar when you boot or log into your Mac.")
+                Text("Start Slate automatically when you boot or log into your Mac.")
                     .font(.caption)
                     .foregroundColor(SlateColors.secondary)
             }
             
-            Section("Status Steps") {
+            Section("Status Steps & Placement") {
                 Toggle("Enable 'In Progress' State", isOn: $settings.allowInProgress)
                 Text("When enabled, checking a to-do cycles: To Do → In Progress (half pie) → Done.")
                     .font(.caption)
                     .foregroundColor(SlateColors.secondary)
-            }
-            
-            Section("Task Placement & Auto-Move") {
+                
                 Picker("New To-Dos Added At", selection: $settings.addTaskPosition) {
                     Text("Bottom of List").tag("bottom")
                     Text("Top of List").tag("top")
@@ -135,49 +176,6 @@ public struct SettingsView: View {
                     .font(.caption)
                     .foregroundColor(SlateColors.secondary)
             }
-            
-            Section("Appearance") {
-                Picker("Theme", selection: $settings.appearanceMode) {
-                    Text("System").tag("system")
-                    Text("Light").tag("light")
-                    Text("Dark").tag("dark")
-                }
-                .pickerStyle(.segmented)
-                
-                Picker("App Icon", selection: $settings.selectedAppIcon) {
-                    Text("Slate Dark (Default)").tag("Slate Dark")
-                    Text("Slate Light").tag("Slate Light")
-                    Text("Slate Minimal").tag("Slate Minimal")
-                }
-            }
-        }
-        .formStyle(.grouped)
-    }
-    
-    // MARK: - Sounds Tab
-    private var soundsTab: some View {
-        Form {
-            Section("Sound Feedback") {
-                Toggle("Play Sound Effects", isOn: $settings.soundEffectsEnabled)
-                Text("Tactile sound effects on task completion, status progress, and deletion. Shortcut: ⇧⌘M.")
-                    .font(.caption)
-                    .foregroundColor(SlateColors.secondary)
-            }
-            
-            Section("Preview Sounds") {
-                HStack(spacing: 12) {
-                    Button("Completed") {
-                        SoundManager.shared.play(.completed)
-                    }
-                    Button("In Progress") {
-                        SoundManager.shared.play(.inProgress)
-                    }
-                    Button("Deleted") {
-                        SoundManager.shared.play(.deleted)
-                    }
-                }
-                .buttonStyle(.bordered)
-            }
         }
         .formStyle(.grouped)
     }
@@ -206,28 +204,6 @@ public struct SettingsView: View {
                 Text("Automatically detects dates, times, and lists. E.g. 'dentist Friday 3pm' sets a reminder for Friday 3:00 PM and puts it on Next.")
                     .font(.caption)
                     .foregroundColor(SlateColors.secondary)
-            }
-        }
-        .formStyle(.grouped)
-    }
-    
-    // MARK: - Menu Bar Tab
-    private var menuBarTab: some View {
-        Form {
-            Section("Menu Bar Extra") {
-                Toggle("Show Slate in Menu Bar", isOn: $settings.showInMenuBar)
-                Text("Keep Today's to-dos accessible right from your Mac's menu bar.")
-                    .font(.caption)
-                    .foregroundColor(SlateColors.secondary)
-            }
-            
-            Section("Badge Count") {
-                Picker("Menu Bar Icon Shows", selection: $settings.menuBarBadge) {
-                    Text("Remaining to-dos today").tag("remaining")
-                    Text("Total to-dos today").tag("total")
-                    Text("Icon only (No count)").tag("none")
-                }
-                .pickerStyle(.radioGroup)
             }
         }
         .formStyle(.grouped)
