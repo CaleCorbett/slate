@@ -687,6 +687,20 @@ struct SmokeTestRunner {
         check(delCode == 200, "DELETE /v1/tasks/:id returns 200 OK")
         check((delDict?["deleted"] as? Bool) == true, "DELETE /v1/tasks/:id returns deleted: true")
 
+        // Test GET /v1/settings & PATCH /v1/settings (sound mute)
+        let (settingsCode, settingsDict, _) = sendRequest(method: "GET", path: "/v1/settings", auth: "Bearer \(token)")
+        check(settingsCode == 200, "GET /v1/settings returns 200 OK")
+        check(settingsDict?["soundEffectsEnabled"] != nil, "GET /v1/settings returns soundEffectsEnabled")
+
+        let (patchCode, patchedDict, _) = sendRequest(method: "PATCH", path: "/v1/settings", auth: "Bearer \(token)", body: ["soundEffectsEnabled": false])
+        check(patchCode == 200, "PATCH /v1/settings returns 200 OK")
+        check((patchedDict?["soundEffectsEnabled"] as? Bool) == false, "PATCH /v1/settings successfully muted soundEffectsEnabled")
+        check(settings.soundEffectsEnabled == false, "AppSettings.shared.soundEffectsEnabled is false")
+
+        // Verify SoundManager plays nothing while muted
+        SoundManager.shared.play(.completed)
+        SoundManager.shared.play(.celebration)
+
         AgentBridgeService.shared.stop()
         pumpRunLoop(seconds: 0.05)
         check(!AgentBridgeService.shared.isRunning, "AgentBridgeService cleanly stopped")

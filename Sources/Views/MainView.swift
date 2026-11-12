@@ -313,6 +313,12 @@ public struct MainView: View {
                     }
                 }
                 .keyboardShortcut("3", modifiers: .command)
+                
+                Button("") {
+                    settings.soundEffectsEnabled.toggle()
+                    UndoToastManager.shared.showInfo(settings.soundEffectsEnabled ? "Sound Effects: On" : "Sound Effects: Muted")
+                }
+                .keyboardShortcut("m", modifiers: [.command, .shift])
             }
             .opacity(0)
         )
@@ -507,6 +513,21 @@ public struct MainView: View {
                 }
                 .buttonStyle(.plain)
                 .help("Open Archive")
+                
+                // Sound Effects Toggle Button
+                Button(action: {
+                    settings.soundEffectsEnabled.toggle()
+                    UndoToastManager.shared.showInfo(settings.soundEffectsEnabled ? "Sound Effects: On" : "Sound Effects: Muted")
+                }) {
+                    Image(systemName: settings.soundEffectsEnabled ? "speaker.wave.2" : "speaker.slash")
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundColor(settings.soundEffectsEnabled ? SlateColors.secondary : .orange)
+                        .frame(width: 32, height: 32)
+                        .background(SlateColors.hair)
+                        .clipShape(Circle())
+                }
+                .buttonStyle(.plain)
+                .help(settings.soundEffectsEnabled ? "Mute App Sounds (⇧⌘M)" : "Enable App Sounds (⇧⌘M)")
                 
                 // Settings Button
                 Button(action: { isShowingSettings = true }) {
@@ -825,6 +846,9 @@ public struct MainView: View {
             } else {
                 settings.appearanceMode = "dark"
             }
+        case "toggle_sounds":
+            settings.soundEffectsEnabled.toggle()
+            UndoToastManager.shared.showInfo(settings.soundEffectsEnabled ? "Sound Effects: On" : "Sound Effects: Muted")
         case "open_settings":
             isShowingSettings = true
         default:

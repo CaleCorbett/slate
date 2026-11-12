@@ -43,6 +43,13 @@ public struct CommandPaletteView: View {
             .action(id: "open_logbook", title: "Open Logbook & Trash", subtitle: "View completed and deleted to-dos", icon: "archivebox.fill", shortcut: "⌘L"),
             .action(id: "import_tasks", title: "Import To-Dos…", subtitle: "Import from Apple Reminders or Things 3", icon: "arrow.down.doc.fill", shortcut: nil),
             .action(id: "clear_completed", title: "Clear Completed To-Dos", subtitle: "Archive completed tasks from Today", icon: "checkmark.circle", shortcut: "⇧⌘⌫"),
+            .action(
+                id: "toggle_sounds",
+                title: AppSettings.shared.soundEffectsEnabled ? "Mute Sound Effects" : "Enable Sound Effects",
+                subtitle: AppSettings.shared.soundEffectsEnabled ? "Silence all tactile audio feedback" : "Turn on tactile audio feedback",
+                icon: AppSettings.shared.soundEffectsEnabled ? "speaker.slash.fill" : "speaker.wave.2.fill",
+                shortcut: "⇧⌘M"
+            ),
             .action(id: "toggle_theme", title: "Toggle Appearance Theme", subtitle: "Switch between Dark and Light mode", icon: "circle.lefthalf.filled", shortcut: nil),
             .action(id: "open_settings", title: "Open Settings", subtitle: "Preferences & shortcuts", icon: "gearshape.fill", shortcut: "⌘,")
         ]

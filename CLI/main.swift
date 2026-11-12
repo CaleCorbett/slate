@@ -79,6 +79,12 @@ struct SlateCLI {
             await handleDone(args: Array(args.dropFirst()))
         case "plan", "today":
             await handlePlan()
+        case "mute":
+            await handleSetSound(enabled: false)
+        case "unmute":
+            await handleSetSound(enabled: true)
+        case "sound", "sounds":
+            await handleSound(args: Array(args.dropFirst()))
         case "token":
             print(getBridgeConfig().token)
         case "mcp":
@@ -286,6 +292,37 @@ struct SlateCLI {
         print("==========================================\n")
     }
     
+    static func handleSetSound(enabled: Bool) async {
+        let (status, _, error) = await apiRequest(method: "PATCH", path: "/v1/settings", body: ["soundEffectsEnabled": enabled])
+        if status == 200 {
+            print(enabled ? "✓ Sound effects enabled." : "✓ Sound effects muted.")
+        } else {
+            print(error ?? "Failed to update sound settings.")
+            exit(1)
+        }
+    }
+    
+    static func handleSound(args: [String]) async {
+        if let first = args.first?.lowercased() {
+            if first == "off" || first == "mute" || first == "0" || first == "false" {
+                await handleSetSound(enabled: false)
+            } else if first == "on" || first == "unmute" || first == "1" || first == "true" {
+                await handleSetSound(enabled: true)
+            } else {
+                print("Usage: slate sound [on|off]")
+            }
+        } else {
+            let (status, data, error) = await apiRequest(method: "GET", path: "/v1/settings")
+            if status == 200, let data = data,
+               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let enabled = json["soundEffectsEnabled"] as? Bool {
+                print("Sound effects are currently \(enabled ? "ENABLED [🔊]" : "MUTED [🔇]").")
+            } else {
+                print(error ?? "Failed to read settings.")
+            }
+        }
+    }
+    
     static func handleConfigMCP() {
         let path = CommandLine.arguments[0]
         let binaryPath = (path.hasPrefix("/")) ? path : "/usr/local/bin/slate"
@@ -317,6 +354,9 @@ COMMANDS:
   add "<title>" [options]                  Create a new task
   done <id-or-search>                      Toggle completion status of a task
   plan                                     Display today's focus plan and streak
+  mute                                     Mute all tactile sound effects
+  unmute                                   Enable tactile sound effects
+  sound [on|off]                           View or set sound effects status
   mcp                                      Run Model Context Protocol (MCP) stdio server
   config-mcp                               Print MCP config JSON for Claude Desktop / Cursor
   token                                    Print active Slate authentication token
@@ -461,6 +501,20 @@ EXAMPLES:
                             "type": "object",
                             "properties": [:]
                         ]
+                    ],
+                    [
+                        "name": "slate_set_sound",
+                        "description": "Enable or mute sound effects in Slate macOS app.",
+                        "inputSchema": [
+                            "type": "object",
+                            "required": ["enabled"],
+                            "properties": [
+                                "enabled": [
+                                    "type": "boolean",
+                                    "description": "True to enable sound effects, false to mute them."
+                                ]
+                            ]
+                        ]
                     ]
                 ]
                 sendJSON(["jsonrpc": "2.0", "id": id as Any, "result": ["tools": tools]])
@@ -542,6 +596,16 @@ EXAMPLES:
                 return ["content": [["type": "text", "text": str]], "isError": false]
             }
             return ["content": [["type": "text", "text": error ?? "Failed to get daily plan"]], "isError": true]
+            
+        case "slate_set_sound":
+            guard let enabled = args["enabled"] as? Bool else {
+                return ["content": [["type": "text", "text": "Error: 'enabled' boolean is required"]], "isError": true]
+            }
+            let (status, _, error) = await apiRequest(method: "PATCH", path: "/v1/settings", body: ["soundEffectsEnabled": enabled])
+            if status == 200 {
+                return ["content": [["type": "text", "text": enabled ? "Sound effects enabled in Slate." : "Sound effects muted in Slate."]], "isError": false]
+            }
+            return ["content": [["type": "text", "text": error ?? "Failed to update sound settings"]], "isError": true]
             
         default:
             return ["content": [["type": "text", "text": "Unknown tool \(name)"]], "isError": true]

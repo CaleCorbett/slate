@@ -477,7 +477,7 @@ public final class DataStore: ObservableObject {
         let cleared = AppSettings.shared.recordStreakIfTodayCleared(todayTasks: todayListTasks)
         if cleared {
             let streak = AppSettings.shared.completionStreakCount
-            NSSound(named: "Hero")?.play()
+            SoundManager.shared.play(.celebration)
             UndoToastManager.shared.showInfo("🎉 Today cleared! 🔥 \(streak)-day streak")
         }
     }

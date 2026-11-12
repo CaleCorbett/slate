@@ -137,6 +137,18 @@ public struct MenuBarTodayView: View {
                 
                 Spacer()
                 
+                Button {
+                    AppSettings.shared.soundEffectsEnabled.toggle()
+                } label: {
+                    Image(systemName: AppSettings.shared.soundEffectsEnabled ? "speaker.wave.2" : "speaker.slash")
+                        .font(.system(size: 11.5))
+                        .foregroundColor(AppSettings.shared.soundEffectsEnabled ? SlateColors.secondary : .orange)
+                }
+                .buttonStyle(.plain)
+                .help(AppSettings.shared.soundEffectsEnabled ? "Mute App Sounds" : "Enable App Sounds")
+                
+                Spacer()
+                
                 Button("Quit") {
                     NSApplication.shared.terminate(nil)
                 }

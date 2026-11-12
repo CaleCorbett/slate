@@ -8,14 +8,16 @@ public enum SoundEvent {
     case allDeleted
     case notification
     case button
+    case celebration
     
-    var fileName: String {
+    var fileName: String? {
         switch self {
         case .completed: return "TaskCompleted.wav"
         case .inProgress: return "TaskInProgress.wav"
         case .deleted, .allDeleted: return "TaskDeleted.wav"
         case .notification: return "TaskNotification.wav"
         case .button: return "ButtonSound.wav"
+        case .celebration: return nil
         }
     }
 }
@@ -30,7 +32,12 @@ public final class SoundManager {
     public func play(_ event: SoundEvent) {
         guard AppSettings.shared.soundEffectsEnabled else { return }
         
-        let soundName = event.fileName
+        if event == .celebration {
+            NSSound(named: "Hero")?.play()
+            return
+        }
+        
+        guard let soundName = event.fileName else { return }
         
         if let sound = soundCache[soundName] {
             sound.stop()

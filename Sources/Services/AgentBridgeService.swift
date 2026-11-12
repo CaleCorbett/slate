@@ -275,6 +275,33 @@ public final class AgentBridgeService: @unchecked Sendable {
         case ("GET", "/v1/plan"):
             await handleGetPlan(connection: connection)
             
+        case ("GET", "/v1/settings"):
+            let settingsDict = await MainActor.run {
+                [
+                    "soundEffectsEnabled": AppSettings.shared.soundEffectsEnabled,
+                    "allowInProgress": AppSettings.shared.allowInProgress,
+                    "appearanceMode": AppSettings.shared.appearanceMode,
+                    "todayCapLimit": AppSettings.shared.todayCapLimit
+                ]
+            }
+            self.sendResponse(connection, status: 200, body: settingsDict)
+            
+        case ("PATCH", "/v1/settings"):
+            guard let json = try? JSONSerialization.jsonObject(with: bodyData) as? [String: Any] else {
+                self.sendResponse(connection, status: 400, body: ["error": "Malformed JSON payload"])
+                return
+            }
+            let updated = await MainActor.run { () -> [String: Any] in
+                if let sounds = json["soundEffectsEnabled"] as? Bool {
+                    AppSettings.shared.soundEffectsEnabled = sounds
+                }
+                return [
+                    "soundEffectsEnabled": AppSettings.shared.soundEffectsEnabled,
+                    "allowInProgress": AppSettings.shared.allowInProgress
+                ]
+            }
+            self.sendResponse(connection, status: 200, body: updated)
+            
         case ("GET", "/v1/tasks"):
             await handleGetTasks(connection: connection, queryItems: queryItems)
             

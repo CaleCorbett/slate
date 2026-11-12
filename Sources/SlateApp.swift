@@ -43,6 +43,12 @@ struct SlateApp: App {
         .windowStyle(.hiddenTitleBar)
         .windowToolbarStyle(.unified(showsTitle: false))
         .defaultSize(width: 1280, height: 760)
+        .commands {
+            CommandMenu("Audio") {
+                Toggle("Play Sound Effects", isOn: $settings.soundEffectsEnabled)
+                    .keyboardShortcut("m", modifiers: [.command, .shift])
+            }
+        }
         
         // Settings Window (Cmd+,)
         Settings {

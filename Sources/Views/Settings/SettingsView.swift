@@ -159,7 +159,7 @@ public struct SettingsView: View {
         Form {
             Section("Sound Feedback") {
                 Toggle("Play Sound Effects", isOn: $settings.soundEffectsEnabled)
-                Text("Tactile sound effects on task completion, status progress, and deletion.")
+                Text("Tactile sound effects on task completion, status progress, and deletion. Shortcut: ⇧⌘M.")
                     .font(.caption)
                     .foregroundColor(SlateColors.secondary)
             }
