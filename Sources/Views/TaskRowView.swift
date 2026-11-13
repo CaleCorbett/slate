@@ -7,6 +7,7 @@ public struct TaskRowView: View {
     let onSelect: () -> Void
     let onToggleExpand: () -> Void
     let onToggle: () -> Void
+    let onToggleInProgress: (() -> Void)?
     let onOpenSheet: () -> Void
     let onDelete: () -> Void
     let onMove: (TaskListType) -> Void
@@ -37,6 +38,7 @@ public struct TaskRowView: View {
         onSelect: @escaping () -> Void = {},
         onToggleExpand: @escaping () -> Void = {},
         onToggle: @escaping () -> Void,
+        onToggleInProgress: (() -> Void)? = nil,
         onOpenSheet: @escaping () -> Void,
         onDelete: @escaping () -> Void,
         onMove: @escaping (TaskListType) -> Void,
@@ -50,6 +52,7 @@ public struct TaskRowView: View {
         self.onSelect = onSelect
         self.onToggleExpand = onToggleExpand
         self.onToggle = onToggle
+        self.onToggleInProgress = onToggleInProgress
         self.onOpenSheet = onOpenSheet
         self.onDelete = onDelete
         self.onMove = onMove
@@ -62,7 +65,11 @@ public struct TaskRowView: View {
         VStack(alignment: .leading, spacing: 0) {
             // Main Row Header
             HStack(alignment: .center, spacing: 13) {
-                StatusToggleView(status: task.status, action: onToggle)
+                StatusToggleView(
+                    status: task.status,
+                    onLeftClick: onToggle,
+                    onRightClick: onToggleInProgress
+                )
                 
                 if isExpanded {
                     TextField("Task title", text: $draftTitle)
@@ -186,6 +193,37 @@ public struct TaskRowView: View {
             draftNotes = task.notes ?? ""
         }
         .contextMenu {
+            // Quick Status Actions
+            if task.status == .inProgress {
+                Button {
+                    DataStore.shared.setStatus(.incomplete, for: [task])
+                } label: {
+                    Label("Mark Incomplete", systemImage: "circle")
+                }
+            } else {
+                Button {
+                    DataStore.shared.setStatus(.inProgress, for: [task])
+                } label: {
+                    Label("Mark In Progress", systemImage: "circle.lefthalf.filled")
+                }
+            }
+            
+            if task.status == .completed {
+                Button {
+                    DataStore.shared.closeOrReopenTask(task)
+                } label: {
+                    Label("Reopen Task", systemImage: "arrow.uturn.backward.circle")
+                }
+            } else {
+                Button {
+                    DataStore.shared.closeOrReopenTask(task)
+                } label: {
+                    Label("Close Task (Mark Complete)", systemImage: "checkmark.circle")
+                }
+            }
+            
+            Divider()
+            
             Button(isExpanded ? "Collapse Inline Editor" : "Expand Inline (↵)") {
                 onToggleExpand()
             }

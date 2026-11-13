@@ -299,6 +299,18 @@ public final class DataStore: ObservableObject {
         reloadAll()
     }
     
+    /// Left-click action: Closes (completes) the task directly, or reopens if already completed.
+    public func closeOrReopenTask(_ task: TodoTask) {
+        let target: TaskStatus = (task.status == .completed) ? .incomplete : .completed
+        setStatus(target, for: [task])
+    }
+    
+    /// Right-click action: Marks the task In Progress, or toggles back to Incomplete if already In Progress.
+    public func toggleTaskInProgress(_ task: TodoTask) {
+        let target: TaskStatus = (task.status == .inProgress) ? .incomplete : .inProgress
+        setStatus(target, for: [task])
+    }
+    
     public func moveTask(_ task: TodoTask, to list: TaskListType) {
         guard task.list != list else { return }
         let existing = tasks(for: list)

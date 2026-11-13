@@ -135,6 +135,22 @@ struct SmokeTestRunner {
         store.toggleTaskStatus(sampleTask)
         check(sampleTask.status == .incomplete, "Third toggle -> .incomplete")
 
+        // Test direct left-click close/complete and right-click in-progress
+        store.closeOrReopenTask(sampleTask)
+        check(sampleTask.status == .completed, "Left click closeOrReopenTask directly completes task from incomplete")
+        store.closeOrReopenTask(sampleTask)
+        check(sampleTask.status == .incomplete, "Left click closeOrReopenTask reopens completed task back to incomplete")
+        
+        store.toggleTaskInProgress(sampleTask)
+        check(sampleTask.status == .inProgress, "Right click toggleTaskInProgress marks incomplete task as in-progress")
+        store.toggleTaskInProgress(sampleTask)
+        check(sampleTask.status == .incomplete, "Right click toggleTaskInProgress toggles in-progress task back to incomplete")
+        
+        store.toggleTaskInProgress(sampleTask) // inProgress
+        store.closeOrReopenTask(sampleTask)
+        check(sampleTask.status == .completed, "Left click closeOrReopenTask closes in-progress task directly to completed")
+        store.closeOrReopenTask(sampleTask) // reset to .incomplete for following tests
+
         // Reorder within list and across lists
         let firstToday = store.todayTasks[0]
         let thirdToday = store.todayTasks[2]

@@ -72,9 +72,11 @@ public struct MenuBarTodayView: View {
                         ForEach(todayTasks) { task in
                             let isCompleted = (task.status == .completed)
                             HStack(spacing: 9) {
-                                StatusToggleView(status: task.status) {
-                                    store.toggleTaskStatus(task)
-                                }
+                                StatusToggleView(
+                                    status: task.status,
+                                    onLeftClick: { store.closeOrReopenTask(task) },
+                                    onRightClick: { store.toggleTaskInProgress(task) }
+                                )
                                 Text(task.title)
                                     .font(.geist(.medium, size: 13))
                                     .foregroundColor(isCompleted ? SlateColors.secondary : SlateColors.primary)

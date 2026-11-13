@@ -12,6 +12,7 @@ public struct TaskListCardView: View {
     let onDeselectAllInGroup: (TaskListType) -> Void
     let onToggleExpandTask: (TodoTask) -> Void
     let onToggleStatus: (TodoTask) -> Void
+    let onToggleInProgress: ((TodoTask) -> Void)?
     let onEditTask: (TodoTask) -> Void
     let onDeleteTask: (TodoTask) -> Void
     let onMoveTask: (TodoTask, TaskListType) -> Void
@@ -41,6 +42,7 @@ public struct TaskListCardView: View {
         onDeselectAllInGroup: @escaping (TaskListType) -> Void = { _ in },
         onToggleExpandTask: @escaping (TodoTask) -> Void = { _ in },
         onToggleStatus: @escaping (TodoTask) -> Void,
+        onToggleInProgress: ((TodoTask) -> Void)? = nil,
         onEditTask: @escaping (TodoTask) -> Void,
         onDeleteTask: @escaping (TodoTask) -> Void,
         onMoveTask: @escaping (TodoTask, TaskListType) -> Void,
@@ -63,6 +65,7 @@ public struct TaskListCardView: View {
         self.onDeselectAllInGroup = onDeselectAllInGroup
         self.onToggleExpandTask = onToggleExpandTask
         self.onToggleStatus = onToggleStatus
+        self.onToggleInProgress = onToggleInProgress
         self.onEditTask = onEditTask
         self.onDeleteTask = onDeleteTask
         self.onMoveTask = onMoveTask
@@ -725,6 +728,7 @@ public struct TaskListCardView: View {
                 }
             },
             onToggle: { onToggleStatus(task) },
+            onToggleInProgress: { onToggleInProgress?(task) },
             onOpenSheet: { onEditTask(task) },
             onDelete: { onDeleteTask(task) },
             onMove: { target in onMoveTask(task, target) },

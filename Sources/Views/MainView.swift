@@ -100,7 +100,8 @@ public struct MainView: View {
                                             expandedTaskID = task.id
                                         }
                                     },
-                                    onToggleStatus: { store.toggleTaskStatus($0) },
+                                    onToggleStatus: { store.closeOrReopenTask($0) },
+                                    onToggleInProgress: { store.toggleTaskInProgress($0) },
                                     onEditTask: { editingTask = $0 },
                                     onDeleteTask: { task in
                                         selectedTaskIDs.remove(task.id)
